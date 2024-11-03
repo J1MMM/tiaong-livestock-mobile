@@ -18,10 +18,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.jim2001.myapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "5da52ce6-b788-4716-b0af-42baf5b78628"
+      }
+    },
+    "plugins": [
+      "expo-secure-store"
+    ]
   }
 }

@@ -1,0 +1,17 @@
+export default GameList = [
+    { stars: 0, id: 0, locked: false, subject: "reading", title: "VOWELS SOUND", url: "HearVowels", },
+    { stars: 0, id: 1, locked: false, subject: "writing", title: "CHOOSE THE CORRECT LETTER", url: "ChoosLetter", },
+    { stars: 0, id: 2, locked: false, subject: "math", title: "COUNTING OBJECTS (1-5)", url: 'CountingObjects', },
+    { stars: 0, id: 3, locked: true, subject: "reading", title: "BASIC WORDS", url: "BasicWords", },
+    { stars: 0, id: 4, locked: true, subject: "writing", title: "FILL IN THE BLANK (EASY)", url: "FillTheBlank1", },
+    { stars: 0, id: 5, locked: true, subject: "math", title: "COUNTING OBJECTS (6-10)", url: "CountSixToTen", },
+    { stars: 0, id: 6, locked: true, subject: "reading", title: "WHAT DO YOU HEAR?", url: "WhatYouHear", },
+    { stars: 0, id: 7, locked: true, subject: "writing", title: "FILL IN THE BLANK (MEDIUM)", url: "FillTheBlank2", },
+    { stars: 0, id: 8, locked: true, subject: "math", title: "COUNTING OBJECTS (11-15)", url: "CountElevenToFifteen", },
+    { stars: 0, id: 9, locked: true, subject: "reading", title: "HOMOPHONES", url: "Homophones", },
+    { stars: 0, id: 10, locked: true, subject: "writing", title: "FILL IN THE BLANK (HARD)", url: "FillTheBlank3", },
+    { stars: 0, id: 11, locked: true, subject: "math", title: "COUNTING OBJECTS (16-20)", url: "CountSixteenToTwenty", },
+    { stars: 0, id: 12, locked: true, subject: "reading", title: "READ THE WORD", url: "ReadWord", },
+    { stars: 0, id: 13, locked: true, subject: "writing", title: "FILL IN THE BLANK (EXPERT)", url: "FillTheBlank4", },
+    { stars: 0, id: 14, locked: true, subject: "math", title: "COUNTING OBJECTS (21-25)", url: "CountTwentyOneToTwentyFive" },
+]
