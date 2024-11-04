@@ -12,6 +12,7 @@ import Splash from "./SplashScreen";
 import LoginScreen from "./LoginScreen";
 import useAuth from "../hooks/useAuth";
 import ForgotPassScreen from "./ForgotPassScreen";
+import VerifyEmailScreen from "./VerifyEmailScreen";
 
 const Stack = createNativeStackNavigator();
 const boldFont = require("../../assets/fonts/VAGRoundedStd-Black.otf");
@@ -21,21 +22,22 @@ const Layout = () => {
   const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
 
-  const useStickyImmersiveReset = (function () {
-    const visibility = NavigationBar.useVisibility();
-    useEffect(() => {
-      if (visibility === "visible") {
-        NavigationBar.setPositionAsync("absolute");
-        NavigationBar.setVisibilityAsync("hidden");
-      }
-    }, [visibility]);
-  })();
-
   // defining custom fonts
   const [fontsLoaded] = useFonts({
     bold: boldFont,
     regular: regularFont,
   });
+
+  // const useStickyImmersiveReset = (function () {
+  //   const visibility = NavigationBar.useVisibility();
+  //   useEffect(() => {
+  //     if (visibility === "visible") {
+  //       NavigationBar.setPositionAsync("absolute");
+  //       NavigationBar.setVisibilityAsync("hidden");
+  //     }
+  //   }, [visibility]);
+  // })();
+
   // display splash screen when font not ready
   useEffect(() => {
     async function prepare() {
@@ -52,7 +54,7 @@ const Layout = () => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
@@ -77,11 +79,16 @@ const Layout = () => {
             options={{ animation: "slide_from_right" }}
             component={ForgotPassScreen}
           />
+          <Stack.Screen
+            name="VerifyEmail"
+            options={{ animation: "slide_from_right" }}
+            component={VerifyEmailScreen}
+          />
         </Stack.Navigator>
-        <StatusBar hidden />
         {/* <BgMusic /> */}
+        <StatusBar animated translucent />
       </NavigationContainer>
-    </SafeAreaView>
+    </View>
   );
 };
 

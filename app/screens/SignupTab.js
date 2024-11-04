@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../context/AuthContext";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import NetInfo from "@react-native-community/netinfo";
 import {
@@ -12,21 +11,23 @@ import {
 } from "react-native";
 import { PAGE_CONTAINER_STYLES } from "../styles";
 import { useNavigation } from "@react-navigation/native";
+import useAuth from "../hooks/useAuth";
+import axios from "../api/axios";
 const logo = require("../../assets/images/logo.jpg");
 
 const SignupTab = () => {
   const navigate = useNavigation();
+  const { setAuth } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [formDisabled, setFormDisabled] = useState(false);
-  const { onLogin } = useAuth();
 
   const [pwdVisible, setPwdVisible] = useState(false);
   const [pwdVisible2, setPwdVisible2] = useState(false);
 
-  const login = async () => {
+  const handleSubmitSignup = async () => {
     setFormDisabled(true);
     NetInfo.fetch().then((state) => {
       if (!state.isConnected) {
@@ -36,23 +37,30 @@ const SignupTab = () => {
       }
     });
 
-    if (!email || !password) {
-      setErrMsg("Username and Password are required");
-      setFormDisabled(false);
-      return;
+    try {
+      const response = await axios.post("/signup", {
+        email,
+        password,
+        password2,
+      });
+      console.log("response.data");
+      console.log(response.data);
+      setEmail("");
+      setPassword("");
+      setPassword2("");
+
+      navigate.navigate("VerifyEmail", { email: email });
+    } catch (error) {
+      console.log(error);
+      setErrMsg(error?.response?.data?.message);
     }
 
-    const result = await onLogin(email, password);
-
-    if (result && result.msg) {
-      setErrMsg(result.msg);
-    }
     setFormDisabled(false);
   };
 
   useEffect(() => {
     setErrMsg("");
-  }, [email, password]);
+  }, [email, password, password2]);
 
   return (
     <View style={{ gap: 16, alignItems: "center", backgroundColor: "#FFF" }}>
@@ -134,7 +142,7 @@ const SignupTab = () => {
 
       <Pressable
         style={styles.loginButton}
-        onPress={login}
+        onPress={handleSubmitSignup}
         disabled={formDisabled}
       >
         <Text
