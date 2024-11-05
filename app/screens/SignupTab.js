@@ -49,7 +49,7 @@ const SignupTab = () => {
       setPassword("");
       setPassword2("");
 
-      navigate.navigate("VerifyEmail", { email: email });
+      navigate.navigate("VerifyEmail", { email: email, id: response.data });
     } catch (error) {
       console.log(error);
       setErrMsg(error?.response?.data?.message);

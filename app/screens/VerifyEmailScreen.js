@@ -8,16 +8,47 @@ import {
   TextInput,
   View,
 } from "react-native";
+import axios from "../api/axios";
+import ButtonContained from "../components/ButtonContained";
+import ButtonOutlined from "../components/ButtonOutlined";
+import TextField from "../components/TextField";
 
 const VerifyEmailScreen = ({ route }) => {
   const navigate = useNavigation();
   const [verificationCode, setVerificationCode] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const { email } = route.params;
+  const { email, id } = route.params;
 
-  console.log("email");
-  console.log(email);
+  const submitVerification = async () => {
+    setErrMsg("");
+    setDisabled(true);
+    try {
+      const response = await axios.post("/verify-code", {
+        verificationCode,
+        id,
+      });
+      navigate.navigate("PersonalInfo");
+    } catch (error) {
+      console.log(error);
+      setErrMsg(error?.response?.data?.message);
+    }
+    setDisabled(false);
+  };
+
+  const resendVerification = async () => {
+    setErrMsg("");
+    setDisabled(true);
+    try {
+      const response = await axios.post("/resend", { id, email });
+      console.log("resend response");
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+      setErrMsg(error?.response?.data?.message);
+    }
+    setDisabled(false);
+  };
 
   return (
     <KeyboardAvoidingView
@@ -58,102 +89,38 @@ const VerifyEmailScreen = ({ route }) => {
             </Text>
           </View>
 
-          <View
-            style={[
-              styles.inputControl,
-              { borderColor: errMsg ? "#FC0F3B" : "#e0e0e0" },
-            ]}
-          >
-            <TextInput
-              style={styles.input}
-              placeholder="Enter verificatiion code"
-              placeholderTextColor="#888"
-              onChangeText={(e) => setVerificationCode(e)}
-              value={verificationCode}
-              autoComplete="email"
-              inputMode="email"
-              editable={!disabled}
+          {errMsg && (
+            <Text style={{ color: "#FC0F3B", marginBottom: -5, maxWidth: 350 }}>
+              {errMsg}
+            </Text>
+          )}
+
+          <TextField
+            placeholder="Enter verificatiion code"
+            disabled={disabled}
+            errMsg={errMsg}
+            onChangeText={(e) => setVerificationCode(e)}
+            type="text"
+            value={verificationCode}
+          />
+          <View style={{ width: "100%", gap: 8 }}>
+            <ButtonContained
+              onPress={submitVerification}
+              disabled={disabled}
+              label={disabled ? "Loading..." : "Verify Account"}
+            />
+            <ButtonOutlined
+              onPress={resendVerification}
+              disabled={disabled}
+              label="Resend Code"
             />
           </View>
-
-          <Pressable
-            style={{
-              ...styles.loginButton,
-              backgroundColor: "#007bff",
-              marginTop: 8,
-            }}
-            onPress={() => {}}
-            disabled={disabled}
-          >
-            <Text
-              style={{
-                color: "#FFF",
-                fontSize: 16,
-                fontWeight: "700",
-                textAlign: "center",
-                letterSpacing: 1,
-              }}
-            >
-              {disabled ? "Loading..." : "Verify Account"}
-            </Text>
-          </Pressable>
-
-          <Pressable
-            style={{
-              ...styles.loginButton,
-              borderWidth: 2,
-              borderColor: "#007bff",
-              marginTop: -8,
-            }}
-            onPress={() => navigate.goBack()}
-            disabled={disabled}
-          >
-            <Text
-              style={{
-                color: "#007bff",
-                fontSize: 16,
-                fontWeight: "700",
-                textAlign: "center",
-                letterSpacing: 1,
-              }}
-            >
-              Resend Code
-            </Text>
-          </Pressable>
         </View>
       </View>
     </KeyboardAvoidingView>
   );
 };
 
-const styles = StyleSheet.create({
-  inputControl: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderWidth: 2,
-    borderColor: "#888",
-    borderRadius: 20,
-    backgroundColor: "#FFF",
-    paddingHorizontal: 12,
-    width: "100%",
-  },
-  input: {
-    fontSize: 16,
-    padding: 16,
-    letterSpacing: 1,
-    flex: 1,
-    width: "100%",
-    fontWeight: "600",
-  },
-
-  loginButton: {
-    padding: 12,
-    borderRadius: 20,
-    display: "flex",
-    justifyContent: "center",
-    width: "100%",
-  },
-});
+const styles = StyleSheet.create({});
 
 export default VerifyEmailScreen;
