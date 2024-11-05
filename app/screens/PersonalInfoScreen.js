@@ -15,10 +15,13 @@ import ButtonOutlined from "../components/ButtonOutlined";
 import TextField from "../components/TextField";
 import InputField from "../components/InputField";
 import GenderRadioBtn from "../components/GenderRadioBtn";
+import RNPickerSelect from "react-native-picker-select";
+import { BRGY } from "../utils/constant";
 
 const PersonalInfoScreen = () => {
   const navigate = useNavigation();
   const [verificationCode, setVerificationCode] = useState("");
+  const [brgy, setBrgy] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [disabled, setDisabled] = useState(false);
 
@@ -116,11 +119,43 @@ const PersonalInfoScreen = () => {
             disabled={disabled}
             onChangeText={() => {}}
           />
-          <InputField
-            label="Barangay"
-            disabled={disabled}
-            onChangeText={() => {}}
-          />
+
+          <View
+            style={{
+              width: "100%",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "bold",
+              }}
+            >
+              Barangay:
+            </Text>
+            <View
+              style={{
+                borderBottomWidth: 2,
+                borderColor: "#e0e0e0",
+                flex: 1,
+                marginLeft: 8,
+              }}
+            >
+              <RNPickerSelect
+                onValueChange={(value) => setBrgy(value)}
+                items={BRGY.map((brgy) => ({ label: brgy, value: brgy }))}
+                placeholder={{ label: "Select your Barangay:", value: null }}
+                style={{
+                  inputAndroid: {
+                    marginBottom: -8,
+                    marginTop: -16,
+                  },
+                }}
+              />
+            </View>
+          </View>
 
           <View
             style={{
@@ -136,7 +171,10 @@ const PersonalInfoScreen = () => {
                 width: "50%",
               }}
             >
-              <ButtonContained label="Back" />
+              <ButtonOutlined
+                onPress={() => navigate.goBack()}
+                label="Cancel"
+              />
             </View>
             <View
               style={{
@@ -151,44 +189,5 @@ const PersonalInfoScreen = () => {
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    width: "100%",
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  radioContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  radioButton: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  circle: {
-    height: 20,
-    width: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: "#777",
-    marginRight: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 8,
-  },
-  checkedCircle: {
-    backgroundColor: "#777",
-  },
-  radioText: {
-    fontSize: 16,
-  },
-});
 
 export default PersonalInfoScreen;

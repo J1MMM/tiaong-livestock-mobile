@@ -1,2 +1,36 @@
-// export const BASE_URL = "http://192.168.100.247:3500/api/farmers";
-export const BASE_URL = "http://10.10.10.113:3500/api/farmers";
+export const BASE_URL = "http://192.168.100.247:3500/api/farmers";
+// export const BASE_URL = "http://10.10.10.113:3500/api/farmers";
+
+export const BRGY = [
+  "Anastacia",
+  "Aquino",
+  "Ayusan I",
+  "Ayusan II",
+  "Behia",
+  "Bukal",
+  "Bula",
+  "Bulakin",
+  "Cabatang",
+  "Cabay",
+  "Del Rosario",
+  "Lagalag",
+  "Lalig",
+  "Lumingon",
+  "Lusacan",
+  "Paiisa",
+  "Palagaran",
+  "Poblacion I",
+  "Poblacion II",
+  "Poblacion III",
+  "Poblacion IV",
+  "Quipot",
+  "San Agustin",
+  "San Isidro",
+  "San Jose",
+  "San Juan",
+  "San Pedro",
+  "Tagbakin",
+  "Talisay",
+  "Tamisian",
+  "San Francisco",
+];

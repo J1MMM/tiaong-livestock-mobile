@@ -72,7 +72,7 @@ const Layout = () => {
           ) : auth?.accessToken ? (
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
           ) : (
-            <Stack.Screen name="LoginScreen" component={LoginScreen} />
+            <Stack.Screen name="LoginScreen" component={PersonalInfoScreen} />
           )}
 
           <Stack.Screen

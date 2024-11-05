@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { StackActions, useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -28,7 +28,13 @@ const VerifyEmailScreen = ({ route }) => {
         verificationCode,
         id,
       });
-      navigate.navigate("PersonalInfo");
+      // navigate.navigate("PersonalInfo");
+      // navigate.reset({
+      //   index: 1,
+      //   routes: [{ name: "LoginScreen" }, { name: "PersonalInfo" }],
+      // });
+
+      navigate.dispatch(StackActions.replace("PersonalInfo"));
     } catch (error) {
       console.log(error);
       setErrMsg(error?.response?.data?.message);
