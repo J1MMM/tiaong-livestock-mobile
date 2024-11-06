@@ -1,9 +1,8 @@
 import { View, Text } from "react-native";
 import React from "react";
 import RNPickerSelect from "react-native-picker-select";
-import { BRGY } from "../utils/constant";
 
-const DropdownBrgy = ({ setUserData }) => {
+const Dropdown = ({ setValue, options, label, placeholder, value }) => {
   return (
     <View
       style={{
@@ -18,7 +17,7 @@ const DropdownBrgy = ({ setUserData }) => {
           fontWeight: "bold",
         }}
       >
-        Barangay:
+        {label}:
       </Text>
       <View
         style={{
@@ -29,15 +28,23 @@ const DropdownBrgy = ({ setUserData }) => {
         }}
       >
         <RNPickerSelect
-          onValueChange={(value) =>
-            setUserData((prev) => ({ ...prev, barangay: value }))
+          value={value}
+          onValueChange={setValue}
+          items={
+            (options &&
+              options?.map((item, index) => ({
+                key: index,
+                label: item,
+                value: item,
+              }))) ||
+            []
           }
-          items={BRGY.map((brgy) => ({ label: brgy, value: brgy }))}
-          placeholder={{ label: "Select your Barangay:", value: null }}
+          placeholder={{ label: placeholder, value: null }}
           style={{
             inputAndroid: {
-              marginBottom: -8,
+              marginBottom: -14,
               marginTop: -16,
+              fontWeight: "600",
             },
           }}
         />
@@ -46,4 +53,4 @@ const DropdownBrgy = ({ setUserData }) => {
   );
 };
 
-export default DropdownBrgy;
+export default Dropdown;

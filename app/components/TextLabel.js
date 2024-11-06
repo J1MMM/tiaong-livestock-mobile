@@ -8,6 +8,7 @@ const TextLabel = ({ children, style }) => {
         {
           fontWeight: "bold",
           fontSize: 16,
+          maxWidth: 150,
         },
         style,
       ]}

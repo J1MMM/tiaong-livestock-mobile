@@ -15,13 +15,15 @@ import ButtonContained from "../components/ButtonContained";
 import ButtonOutlined from "../components/ButtonOutlined";
 import TextField from "../components/TextField";
 import InputField from "../components/InputField";
-import GenderRadioBtn from "../components/GenderRadioBtn";
+import RadioInputField from "../components/RadioInputField";
 import RNPickerSelect from "react-native-picker-select";
 import { BRGY } from "../utils/constant";
-import DropdownBrgy from "./DropdownBrgy";
+import Dropdown from "../components/Dropdown";
 import useData from "../hooks/useData";
 import TextLabel from "../components/TextLabel";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import DatePicker from "../components/DatePicker";
 
 const PersonalInfo2Screen = () => {
   const navigate = useNavigation();
@@ -38,43 +40,24 @@ const PersonalInfo2Screen = () => {
   };
 
   const handlePressNextBtn = () => {
+    console.log(userData);
     if (
-      !userData.surname ||
-      !userData.firstname ||
-      !userData.sex ||
-      !userData.address ||
-      !userData.houseNo ||
-      !userData.street ||
-      !userData.barangay
+      !userData.contactNo ||
+      !userData.birthDate ||
+      !userData.birthPlace ||
+      !userData.religion ||
+      !userData.civilStatus ||
+      !userData.householdHead
     ) {
       setErrMsg("Please fill in all required fields.");
       return;
     }
-    navigate.navigate("PersonalInfo2");
+    navigate.navigate("PersonalInfo");
   };
 
   useEffect(() => {
     setErrMsg("");
   }, [userData]);
-
-  const [date, setDate] = useState(new Date(1598051730000));
-
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
-    setDate(currentDate);
-  };
-
-  const showMode = (currentMode) => {
-    DateTimePickerAndroid.open({
-      value: date,
-      onChange,
-      mode: currentMode,
-    });
-  };
-
-  const showDatepicker = () => {
-    showMode("date");
-  };
 
   return (
     <KeyboardAvoidingView
@@ -118,29 +101,121 @@ const PersonalInfo2Screen = () => {
             }
           />
 
+          <DatePicker
+            label={"Date of Birth"}
+            date={userData.birthDate || new Date()}
+            setDate={(v) => setUserData((prev) => ({ ...prev, birthDate: v }))}
+          />
+
+          <InputField
+            disabled={disabled}
+            label="Place of Birth"
+            value={useData.birthPlace}
+            onChangeText={(value) =>
+              setUserData((prev) => ({ ...prev, birthPlace: value }))
+            }
+          />
+
+          <Dropdown
+            label="Religion"
+            placeholder="Select your religion:"
+            options={["Christianity", "Islam", "Others"]}
+            value={userData.religion}
+            setValue={(value) =>
+              setUserData((prev) => ({ ...prev, religion: value }))
+            }
+          />
+
+          <InputField
+            disabled={disabled || userData.religion != "Others"}
+            label="Specify Religion"
+            value={useData.specifyReligion}
+            onChangeText={(value) =>
+              setUserData((prev) => ({ ...prev, specifyReligion: value }))
+            }
+          />
+
+          <Dropdown
+            label="Civil Status"
+            placeholder="Select your civil status:"
+            options={["Single", "Married", "Widowed", "Separated"]}
+            value={userData.civilStatus}
+            setValue={(value) =>
+              setUserData((prev) => ({ ...prev, civilStatus: value }))
+            }
+          />
+
+          <InputField
+            label="Name of Spouse(if married)"
+            disabled={disabled}
+            value={useData.spouseName}
+            onChangeText={(value) =>
+              setUserData((prev) => ({ ...prev, spouseName: value }))
+            }
+          />
+          <InputField
+            label="Mother's Maiden Name"
+            disabled={disabled}
+            value={useData.motherMaidenName}
+            onChangeText={(value) =>
+              setUserData((prev) => ({ ...prev, motherMaidenName: value }))
+            }
+          />
+
+          <RadioInputField
+            label="Household Held"
+            options={["Yes", "No"]}
+            value={userData.householdHeld}
+            setValue={(value) =>
+              setUserData((prev) => ({ ...prev, householdHeld: value }))
+            }
+          />
+
+          <InputField
+            label="If no, name of household head"
+            disabled={disabled}
+            value={useData.nameOfHouseholdHead}
+            onChangeText={(value) =>
+              setUserData((prev) => ({ ...prev, nameOfHouseholdHead: value }))
+            }
+          />
+          <InputField
+            label="No. of living household members"
+            disabled={disabled}
+            value={useData.numberOfLivingHead}
+            onChangeText={(value) =>
+              setUserData((prev) => ({ ...prev, numberOfLivingHead: value }))
+            }
+          />
+
           <View
             style={{
               flexDirection: "row",
-              width: "100%",
               alignItems: "center",
-              gap: 8,
             }}
           >
-            <TextLabel>Date of Birth:</TextLabel>
-
-            <Pressable
-              onPress={showDatepicker}
-              style={{
-                flex: 1,
-                borderBottomWidth: 2,
-                borderColor: "#e0e0e0",
-              }}
-            >
-              <Text style={{ color: "#e0e0e0", fontSize: 16 }}>
-                {date.toLocaleString()}
-              </Text>
-            </Pressable>
+            <View style={{ width: "50%" }}>
+              <InputField
+                label="No. of male"
+                disabled={disabled}
+                value={useData.noMale}
+                onChangeText={(value) =>
+                  setUserData((prev) => ({ ...prev, noMale: value }))
+                }
+              />
+            </View>
+            <View style={{ width: "50%" }}>
+              <InputField
+                label="No. of female"
+                disabled={disabled}
+                value={useData.noFemale}
+                onChangeText={(value) =>
+                  setUserData((prev) => ({ ...prev, noFemale: value }))
+                }
+              />
+            </View>
           </View>
+
           {/* here  */}
 
           <View

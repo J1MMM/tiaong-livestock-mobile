@@ -20,7 +20,6 @@ const InputField = ({ label, onChangeText, disabled, value, errMsg }) => {
           letterSpacing: 1,
           flex: 1,
           width: "100%",
-          fontWeight: "500",
           borderBottomWidth: 2,
           borderColor: errMsg ? "#FC0F3B" : "#e0e0e0",
           padding: 0,

@@ -14,10 +14,10 @@ import ButtonContained from "../components/ButtonContained";
 import ButtonOutlined from "../components/ButtonOutlined";
 import TextField from "../components/TextField";
 import InputField from "../components/InputField";
-import GenderRadioBtn from "../components/GenderRadioBtn";
+import RadioInputField from "../components/RadioInputField";
 import RNPickerSelect from "react-native-picker-select";
 import { BRGY } from "../utils/constant";
-import DropdownBrgy from "./DropdownBrgy";
+import Dropdown from "../components/Dropdown";
 import useData from "../hooks/useData";
 import TextLabel from "../components/TextLabel";
 
@@ -134,16 +134,23 @@ const PersonalInfoScreen = () => {
             }
           />
 
-          <GenderRadioBtn setUserData={setUserData} userData={userData} />
-
-          <TextLabel
-            style={{
-              width: "100%",
-              marginBottom: -16,
-            }}
-          >
-            Address:
-          </TextLabel>
+          <RadioInputField
+            label="Sex"
+            options={["Male", "Female"]}
+            value={userData.sex}
+            setValue={(value) =>
+              setUserData((prev) => ({ ...prev, sex: value }))
+            }
+          />
+          <View style={{ width: "100%" }}>
+            <TextLabel
+              style={{
+                marginBottom: -16,
+              }}
+            >
+              Address:
+            </TextLabel>
+          </View>
 
           <InputField
             label="House/Lot/Bldg. No"
@@ -163,7 +170,15 @@ const PersonalInfoScreen = () => {
             }
           />
 
-          <DropdownBrgy setUserData={setUserData} />
+          <Dropdown
+            label="Barangay"
+            placeholder="Select your Barangay:"
+            options={BRGY}
+            value={userData.barangay}
+            setValue={(value) =>
+              setUserData((prev) => ({ ...prev, barangay: value }))
+            }
+          />
 
           <View
             style={{

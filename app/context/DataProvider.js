@@ -9,7 +9,6 @@ export const DataProvider = ({ children }) => {
     middlename: "",
     extensionName: "",
     sex: "",
-    address: "",
     houseNo: "",
     street: "",
     barangay: "",
@@ -23,6 +22,7 @@ export const DataProvider = ({ children }) => {
     motherMaidenName: "",
     householdHead: "",
     nameOfHouseholdHead: "",
+    numberOfLivingHead: "",
     noMale: "",
     noFemale: "",
   });
