@@ -14,6 +14,7 @@ import useAuth from "../hooks/useAuth";
 import ForgotPassScreen from "./ForgotPassScreen";
 import VerifyEmailScreen from "./VerifyEmailScreen";
 import PersonalInfoScreen from "./PersonalInfoScreen";
+import PersonalInfo2Screen from "./PersonalInfo2Screen";
 
 const Stack = createNativeStackNavigator();
 const boldFont = require("../../assets/fonts/VAGRoundedStd-Black.otf");
@@ -90,6 +91,12 @@ const Layout = () => {
             name="PersonalInfo"
             options={{ animation: "slide_from_right" }}
             component={PersonalInfoScreen}
+          />
+
+          <Stack.Screen
+            name="PersonalInfo2"
+            options={{ animation: "slide_from_right" }}
+            component={PersonalInfo2Screen}
           />
         </Stack.Navigator>
         {/* <BgMusic /> */}

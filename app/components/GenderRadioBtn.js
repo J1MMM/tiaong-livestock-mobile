@@ -1,21 +1,22 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
+import TextLabel from "./TextLabel";
 
-const GenderRadioBtn = ({ handleGenderSelect, selectedGender }) => {
+const GenderRadioBtn = ({ setUserData, userData }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Sex:</Text>
+      <TextLabel>Sex:</TextLabel>
       <View style={styles.radioContainer}>
         <TouchableOpacity
           activeOpacity={1}
           style={styles.radioButton}
-          onPress={() => handleGenderSelect("Male")}
+          onPress={() => setUserData((prev) => ({ ...prev, sex: "Male" }))}
         >
           <View style={styles.circleOutline}>
             <View
               style={[
                 styles.circle,
-                selectedGender === "Male" && styles.checkedCircle,
+                userData.sex === "Male" && styles.checkedCircle,
               ]}
             />
           </View>
@@ -25,13 +26,13 @@ const GenderRadioBtn = ({ handleGenderSelect, selectedGender }) => {
         <TouchableOpacity
           activeOpacity={1}
           style={styles.radioButton}
-          onPress={() => handleGenderSelect("Female")}
+          onPress={() => setUserData((prev) => ({ ...prev, sex: "Female" }))}
         >
           <View style={styles.circleOutline}>
             <View
               style={[
                 styles.circle,
-                selectedGender === "Female" && styles.checkedCircle,
+                userData.sex === "Female" && styles.checkedCircle,
               ]}
             />
           </View>

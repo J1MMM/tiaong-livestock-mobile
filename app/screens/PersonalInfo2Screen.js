@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
+  Button,
   KeyboardAvoidingView,
   Pressable,
   StyleSheet,
@@ -20,8 +21,9 @@ import { BRGY } from "../utils/constant";
 import DropdownBrgy from "./DropdownBrgy";
 import useData from "../hooks/useData";
 import TextLabel from "../components/TextLabel";
+import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 
-const PersonalInfoScreen = () => {
+const PersonalInfo2Screen = () => {
   const navigate = useNavigation();
   const { userData, setUserData } = useData();
   const [verificationCode, setVerificationCode] = useState("");
@@ -40,6 +42,7 @@ const PersonalInfoScreen = () => {
       !userData.surname ||
       !userData.firstname ||
       !userData.sex ||
+      !userData.address ||
       !userData.houseNo ||
       !userData.street ||
       !userData.barangay
@@ -53,6 +56,25 @@ const PersonalInfoScreen = () => {
   useEffect(() => {
     setErrMsg("");
   }, [userData]);
+
+  const [date, setDate] = useState(new Date(1598051730000));
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    DateTimePickerAndroid.open({
+      value: date,
+      onChange,
+      mode: currentMode,
+    });
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
 
   return (
     <KeyboardAvoidingView
@@ -81,17 +103,6 @@ const PersonalInfoScreen = () => {
             gap: 16,
           }}
         >
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: 24,
-              fontWeight: "500",
-              width: "100%",
-            }}
-          >
-            ANI AT KITA RSBSA ENROLLMENT FORM
-          </Text>
-
           {errMsg && (
             <Text style={{ color: "#FC0F3B", fontWeight: "bold" }}>
               {errMsg}
@@ -100,70 +111,37 @@ const PersonalInfoScreen = () => {
 
           <InputField
             disabled={disabled}
-            label="Surname"
-            value={useData.surname}
+            label="Contact No"
+            value={useData.contactNo}
             onChangeText={(value) =>
-              setUserData((prev) => ({ ...prev, surname: value }))
+              setUserData((prev) => ({ ...prev, contactNo: value }))
             }
           />
 
-          <InputField
-            disabled={disabled}
-            label="First Name"
-            value={useData.firstname}
-            onChangeText={(value) =>
-              setUserData((prev) => ({ ...prev, firstname: value }))
-            }
-          />
-
-          <InputField
-            label="Middle Name"
-            disabled={disabled}
-            value={useData.middlename}
-            onChangeText={(value) =>
-              setUserData((prev) => ({ ...prev, middlename: value }))
-            }
-          />
-
-          <InputField
-            label="Extension Name"
-            disabled={disabled}
-            value={useData.extensionName}
-            onChangeText={(value) =>
-              setUserData((prev) => ({ ...prev, extensionName: value }))
-            }
-          />
-
-          <GenderRadioBtn setUserData={setUserData} userData={userData} />
-
-          <TextLabel
+          <View
             style={{
+              flexDirection: "row",
               width: "100%",
-              marginBottom: -16,
+              alignItems: "center",
+              gap: 8,
             }}
           >
-            Address:
-          </TextLabel>
+            <TextLabel>Date of Birth:</TextLabel>
 
-          <InputField
-            label="House/Lot/Bldg. No"
-            disabled={disabled}
-            value={useData.houseNo}
-            onChangeText={(value) =>
-              setUserData((prev) => ({ ...prev, houseNo: value }))
-            }
-          />
-
-          <InputField
-            label="Street/Sitio/Subdv"
-            disabled={disabled}
-            value={useData.street}
-            onChangeText={(value) =>
-              setUserData((prev) => ({ ...prev, street: value }))
-            }
-          />
-
-          <DropdownBrgy setUserData={setUserData} />
+            <Pressable
+              onPress={showDatepicker}
+              style={{
+                flex: 1,
+                borderBottomWidth: 2,
+                borderColor: "#e0e0e0",
+              }}
+            >
+              <Text style={{ color: "#e0e0e0", fontSize: 16 }}>
+                {date.toLocaleString()}
+              </Text>
+            </Pressable>
+          </View>
+          {/* here  */}
 
           <View
             style={{
@@ -179,10 +157,7 @@ const PersonalInfoScreen = () => {
                 width: "50%",
               }}
             >
-              <ButtonOutlined
-                onPress={() => navigate.goBack()}
-                label="Cancel"
-              />
+              <ButtonContained onPress={() => navigate.goBack()} label="Back" />
             </View>
             <View
               style={{
@@ -198,4 +173,4 @@ const PersonalInfoScreen = () => {
   );
 };
 
-export default PersonalInfoScreen;
+export default PersonalInfo2Screen;

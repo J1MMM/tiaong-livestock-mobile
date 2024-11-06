@@ -10,7 +10,6 @@ const ButtonContained = ({ onPress, disabled, label }) => {
         display: "flex",
         justifyContent: "center",
         backgroundColor: disabled ? "#e0e0e0" : "#007bff",
-        marginTop: 8,
       }}
       onPress={onPress}
       disabled={disabled}

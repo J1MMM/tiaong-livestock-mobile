@@ -1,7 +1,8 @@
 import { View, Text, TextInput } from "react-native";
 import React from "react";
+import TextLabel from "./TextLabel";
 
-const InputField = ({ label, onChangeText, disabled, value }) => {
+const InputField = ({ label, onChangeText, disabled, value, errMsg }) => {
   return (
     <View
       style={{
@@ -11,14 +12,8 @@ const InputField = ({ label, onChangeText, disabled, value }) => {
         gap: 8,
       }}
     >
-      <Text
-        style={{
-          fontWeight: "bold",
-          fontSize: 16,
-        }}
-      >
-        {label}:
-      </Text>
+      <TextLabel>{label}:</TextLabel>
+
       <TextInput
         style={{
           fontSize: 16,
@@ -27,7 +22,7 @@ const InputField = ({ label, onChangeText, disabled, value }) => {
           width: "100%",
           fontWeight: "500",
           borderBottomWidth: 2,
-          borderColor: "#e0e0e0",
+          borderColor: errMsg ? "#FC0F3B" : "#e0e0e0",
           padding: 0,
         }}
         onChangeText={onChangeText}
