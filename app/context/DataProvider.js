@@ -12,6 +12,7 @@ export const DataProvider = ({ children }) => {
     houseNo: "",
     street: "",
     barangay: "",
+
     contactNo: "",
     birthDate: null,
     birthPlace: "",
@@ -25,6 +26,31 @@ export const DataProvider = ({ children }) => {
     numberOfLivingHead: "",
     noMale: "",
     noFemale: "",
+
+    education: "",
+    PWD: "",
+    memberIndigenousGroup: "",
+    specifyIndigenousGroup: "",
+    withGovernmentID: "",
+    specifyGovernmentID: "",
+    memberAssociationOrCooperative: "",
+    specifyAssociationOrCooperative: "",
+    personToNotifyInCaseEmergency: "",
+    contactPersonToNotifyInCaseEmergency: "",
+
+    livelihood: "",
+    livestockChecked: false,
+    livestockSpecify: "",
+    poultryChecked: false,
+    poultrySpecify: "",
+
+    landPreparationChecked: false,
+    harvestingChecked: false,
+    kindOfWorkOther: false,
+    kindOfWorkSpecify: "",
+
+    grossAnnualIncome: "",
+    specifyGrossAnnualIncome: "",
   });
 
   return (

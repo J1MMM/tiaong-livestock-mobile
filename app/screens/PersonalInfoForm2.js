@@ -1,58 +1,35 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  KeyboardAvoidingView,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import axios from "../api/axios";
+import { ScrollView, Text, View } from "react-native";
 import ButtonContained from "../components/ButtonContained";
-import ButtonOutlined from "../components/ButtonOutlined";
-import TextField from "../components/TextField";
 import InputField from "../components/InputField";
 import RadioInputField from "../components/RadioInputField";
-import RNPickerSelect from "react-native-picker-select";
-import { BRGY } from "../utils/constant";
 import Dropdown from "../components/Dropdown";
 import useData from "../hooks/useData";
-import TextLabel from "../components/TextLabel";
-import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import DatePicker from "../components/DatePicker";
 
-const PersonalInfo2Screen = () => {
+import DatePicker from "../components/DatePicker";
+import Collapsible from "react-native-collapsible";
+
+const PersonalInfoFrom2 = () => {
   const navigate = useNavigation();
   const { userData, setUserData } = useData();
-  const [verificationCode, setVerificationCode] = useState("");
-  const [brgy, setBrgy] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [disabled, setDisabled] = useState(false);
 
-  const [selectedGender, setSelectedGender] = useState(null);
-
-  const handleGenderSelect = (gender) => {
-    setSelectedGender(gender);
-  };
-
   const handlePressNextBtn = () => {
-    console.log(userData);
     if (
       !userData.contactNo ||
       !userData.birthDate ||
       !userData.birthPlace ||
       !userData.religion ||
       !userData.civilStatus ||
-      !userData.householdHead
+      !userData.householdHead ||
+      !userData.numberOfLivingHead
     ) {
       setErrMsg("Please fill in all required fields.");
       return;
     }
-    navigate.navigate("PersonalInfo");
+    navigate.navigate("PersonalInfo3");
   };
 
   useEffect(() => {
@@ -60,12 +37,9 @@ const PersonalInfo2Screen = () => {
   }, [userData]);
 
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      style={{
-        backgroundColor: "#FFF",
-        flex: 1,
-      }}
+    <ScrollView
+      contentContainerStyle={{ flex: 1 }}
+      keyboardShouldPersistTaps="handled" // Ensures keyboard does not interfere
     >
       <View
         style={{
@@ -95,7 +69,7 @@ const PersonalInfo2Screen = () => {
           <InputField
             disabled={disabled}
             label="Contact No"
-            value={useData.contactNo}
+            value={userData.contactNo}
             onChangeText={(value) =>
               setUserData((prev) => ({ ...prev, contactNo: value }))
             }
@@ -110,7 +84,7 @@ const PersonalInfo2Screen = () => {
           <InputField
             disabled={disabled}
             label="Place of Birth"
-            value={useData.birthPlace}
+            value={userData.birthPlace}
             onChangeText={(value) =>
               setUserData((prev) => ({ ...prev, birthPlace: value }))
             }
@@ -125,15 +99,19 @@ const PersonalInfo2Screen = () => {
               setUserData((prev) => ({ ...prev, religion: value }))
             }
           />
-
-          <InputField
-            disabled={disabled || userData.religion != "Others"}
-            label="Specify Religion"
-            value={useData.specifyReligion}
-            onChangeText={(value) =>
-              setUserData((prev) => ({ ...prev, specifyReligion: value }))
-            }
-          />
+          <Collapsible
+            collapsed={userData.religion == "Others" ? false : true}
+            style={{ width: "100%" }}
+          >
+            <InputField
+              disabled={disabled || userData.religion != "Others"}
+              label="Specify Religion"
+              value={userData.specifyReligion}
+              onChangeText={(value) =>
+                setUserData((prev) => ({ ...prev, specifyReligion: value }))
+              }
+            />
+          </Collapsible>
 
           <Dropdown
             label="Civil Status"
@@ -144,45 +122,54 @@ const PersonalInfo2Screen = () => {
               setUserData((prev) => ({ ...prev, civilStatus: value }))
             }
           />
-
-          <InputField
-            label="Name of Spouse(if married)"
-            disabled={disabled}
-            value={useData.spouseName}
-            onChangeText={(value) =>
-              setUserData((prev) => ({ ...prev, spouseName: value }))
-            }
-          />
+          <Collapsible
+            collapsed={userData?.civilStatus == "Married" ? false : true}
+            style={{ width: "100%" }}
+          >
+            <InputField
+              label="Name of Spouse(if married)"
+              disabled={disabled}
+              value={userData.spouseName}
+              onChangeText={(value) =>
+                setUserData((prev) => ({ ...prev, spouseName: value }))
+              }
+            />
+          </Collapsible>
           <InputField
             label="Mother's Maiden Name"
             disabled={disabled}
-            value={useData.motherMaidenName}
+            value={userData.motherMaidenName}
             onChangeText={(value) =>
               setUserData((prev) => ({ ...prev, motherMaidenName: value }))
             }
           />
 
           <RadioInputField
-            label="Household Held"
+            label="Household Head"
             options={["Yes", "No"]}
-            value={userData.householdHeld}
+            value={userData.householdHead}
             setValue={(value) =>
-              setUserData((prev) => ({ ...prev, householdHeld: value }))
+              setUserData((prev) => ({ ...prev, householdHead: value }))
             }
           />
 
+          <Collapsible
+            collapsed={userData?.householdHead == "No" ? false : true}
+            style={{ width: "100%" }}
+          >
+            <InputField
+              label="If no, Name of Household Head"
+              disabled={disabled}
+              value={userData.nameOfHouseholdHead}
+              onChangeText={(value) =>
+                setUserData((prev) => ({ ...prev, nameOfHouseholdHead: value }))
+              }
+            />
+          </Collapsible>
           <InputField
-            label="If no, name of household head"
+            label="No. of Living Household Members"
             disabled={disabled}
-            value={useData.nameOfHouseholdHead}
-            onChangeText={(value) =>
-              setUserData((prev) => ({ ...prev, nameOfHouseholdHead: value }))
-            }
-          />
-          <InputField
-            label="No. of living household members"
-            disabled={disabled}
-            value={useData.numberOfLivingHead}
+            value={userData.numberOfLivingHead}
             onChangeText={(value) =>
               setUserData((prev) => ({ ...prev, numberOfLivingHead: value }))
             }
@@ -196,9 +183,9 @@ const PersonalInfo2Screen = () => {
           >
             <View style={{ width: "50%" }}>
               <InputField
-                label="No. of male"
+                label="No. of Male"
                 disabled={disabled}
-                value={useData.noMale}
+                value={userData.noMale}
                 onChangeText={(value) =>
                   setUserData((prev) => ({ ...prev, noMale: value }))
                 }
@@ -206,9 +193,9 @@ const PersonalInfo2Screen = () => {
             </View>
             <View style={{ width: "50%" }}>
               <InputField
-                label="No. of female"
+                label="No. of Female"
                 disabled={disabled}
-                value={useData.noFemale}
+                value={userData.noFemale}
                 onChangeText={(value) =>
                   setUserData((prev) => ({ ...prev, noFemale: value }))
                 }
@@ -244,8 +231,8 @@ const PersonalInfo2Screen = () => {
           </View>
         </View>
       </View>
-    </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
-export default PersonalInfo2Screen;
+export default PersonalInfoFrom2;

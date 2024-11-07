@@ -1,13 +1,6 @@
 import { StackActions, useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import axios from "../api/axios";
 import ButtonContained from "../components/ButtonContained";
 import ButtonOutlined from "../components/ButtonOutlined";
@@ -57,73 +50,65 @@ const VerifyEmailScreen = ({ route }) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
+    <View
       style={{
-        backgroundColor: "#FFF",
         flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#EEF2F6",
+        padding: 24,
       }}
     >
       <View
         style={{
-          flex: 1,
-          justifyContent: "center",
+          backgroundColor: "#FFF",
+          width: "100%",
           alignItems: "center",
-          backgroundColor: "#EEF2F6",
           padding: 24,
+          borderRadius: 8,
+          gap: 16,
         }}
       >
-        <View
-          style={{
-            backgroundColor: "#FFF",
-            width: "100%",
-            alignItems: "center",
-            padding: 24,
-            borderRadius: 8,
-            gap: 16,
-          }}
-        >
-          <View>
-            <Text style={{ fontSize: 24, fontWeight: "500", marginBottom: 8 }}>
-              Verify Your Account
-            </Text>
-            <Text style={{}}>
-              Please enter the verification code sent to your email address.
-            </Text>
-            <Text style={{ color: "#007bff", fontWeight: "bold" }}>
-              Your email is: {email || ""}
-            </Text>
-          </View>
+        <View>
+          <Text style={{ fontSize: 24, fontWeight: "500", marginBottom: 8 }}>
+            Verify Your Account
+          </Text>
+          <Text style={{}}>
+            Please enter the verification code sent to your email address.
+          </Text>
+          <Text style={{ color: "#007bff", fontWeight: "bold" }}>
+            Your email is: {email || ""}
+          </Text>
+        </View>
 
-          {errMsg && (
-            <Text style={{ color: "#FC0F3B", marginBottom: -5, maxWidth: 350 }}>
-              {errMsg}
-            </Text>
-          )}
+        {errMsg && (
+          <Text style={{ color: "#FC0F3B", marginBottom: -5, maxWidth: 350 }}>
+            {errMsg}
+          </Text>
+        )}
 
-          <TextField
-            placeholder="Enter verificatiion code"
+        <TextField
+          placeholder="Enter verificatiion code"
+          disabled={disabled}
+          errMsg={errMsg}
+          onChangeText={(e) => setVerificationCode(e)}
+          type="text"
+          value={verificationCode}
+        />
+        <View style={{ width: "100%", gap: 8 }}>
+          <ButtonContained
+            onPress={submitVerification}
             disabled={disabled}
-            errMsg={errMsg}
-            onChangeText={(e) => setVerificationCode(e)}
-            type="text"
-            value={verificationCode}
+            label={disabled ? "Loading..." : "Verify Account"}
           />
-          <View style={{ width: "100%", gap: 8 }}>
-            <ButtonContained
-              onPress={submitVerification}
-              disabled={disabled}
-              label={disabled ? "Loading..." : "Verify Account"}
-            />
-            <ButtonOutlined
-              onPress={resendVerification}
-              disabled={disabled}
-              label="Resend Code"
-            />
-          </View>
+          <ButtonOutlined
+            onPress={resendVerification}
+            disabled={disabled}
+            label="Resend Code"
+          />
         </View>
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 

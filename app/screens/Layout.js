@@ -13,8 +13,12 @@ import LoginScreen from "./LoginScreen";
 import useAuth from "../hooks/useAuth";
 import ForgotPassScreen from "./ForgotPassScreen";
 import VerifyEmailScreen from "./VerifyEmailScreen";
-import PersonalInfoScreen from "./PersonalInfoScreen";
-import PersonalInfo2Screen from "./PersonalInfo2Screen";
+import PersonalInfoFrom3 from "./PersonalInfoFrom3";
+import PersonalInfoFrom2 from "./PersonalInfoForm2";
+import PersonalInfoFrom1 from "./PersonalInfoFrom1";
+import FarmProfileForm1 from "./FarmProfileForm1";
+import FarmProfileForm2 from "./FarmProfileForm2";
+import FarmProfileForm3 from "./FarmProfileForm3";
 
 const Stack = createNativeStackNavigator();
 const boldFont = require("../../assets/fonts/VAGRoundedStd-Black.otf");
@@ -73,7 +77,7 @@ const Layout = () => {
           ) : auth?.accessToken ? (
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
           ) : (
-            <Stack.Screen name="LoginScreen" component={PersonalInfoScreen} />
+            <Stack.Screen name="LoginScreen" component={PersonalInfoFrom1} />
           )}
 
           <Stack.Screen
@@ -90,13 +94,35 @@ const Layout = () => {
           <Stack.Screen
             name="PersonalInfo"
             options={{ animation: "slide_from_right" }}
-            component={PersonalInfoScreen}
+            component={PersonalInfoFrom1}
           />
 
           <Stack.Screen
             name="PersonalInfo2"
             options={{ animation: "slide_from_right" }}
-            component={PersonalInfo2Screen}
+            component={PersonalInfoFrom2}
+          />
+
+          <Stack.Screen
+            name="PersonalInfo3"
+            options={{ animation: "slide_from_right" }}
+            component={PersonalInfoFrom3}
+          />
+
+          <Stack.Screen
+            name="FarmProfile1"
+            options={{ animation: "slide_from_right" }}
+            component={FarmProfileForm1}
+          />
+          <Stack.Screen
+            name="FarmProfile2"
+            options={{ animation: "slide_from_right" }}
+            component={FarmProfileForm2}
+          />
+          <Stack.Screen
+            name="FarmProfile3"
+            options={{ animation: "slide_from_right" }}
+            component={FarmProfileForm3}
           />
         </Stack.Navigator>
         {/* <BgMusic /> */}

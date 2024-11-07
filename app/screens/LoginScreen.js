@@ -5,7 +5,6 @@ import {
   Text,
   Image,
   Pressable,
-  KeyboardAvoidingView,
   Dimensions,
 } from "react-native";
 
@@ -49,101 +48,94 @@ const LoginScreen = () => {
   });
 
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
+    <View
       style={{
-        backgroundColor: "#FFF",
+        padding: 24,
+        gap: 24,
         flex: 1,
+        backgroundColor: "#FFF",
       }}
     >
       <View
         style={{
-          padding: 24,
-          gap: 24,
+          justifyContent: "flex-end",
+          alignItems: "center",
           flex: 1,
+          gap: 40,
         }}
       >
-        <View
-          style={{
-            justifyContent: "flex-end",
-            alignItems: "center",
-            flex: 1,
-            gap: 40,
-          }}
-        >
-          <Image source={logo} style={{ maxWidth: 125, maxHeight: 125 }} />
+        <Image source={logo} style={{ maxWidth: 125, maxHeight: 125 }} />
 
-          <View style={styles.navContainer}>
-            <AnimatedView
-              style={{
-                position: "absolute",
-                width: "100%",
-                height: "100%",
-                left: 0,
-                top: 0,
-                borderRadius: 24,
-              }}
-            >
-              <AnimatedView
-                style={[
-                  {
-                    backgroundColor: "#007bff",
-                    width: "50%",
-                    height: "100%",
-                    borderRadius: 24,
-                  },
-                  animatedStyle,
-                ]}
-              />
-            </AnimatedView>
-            <Pressable style={styles.navBtn} onPress={handleNavigateLogin}>
-              <Text
-                style={{
-                  ...styles.navBtnTxt,
-                  color: loginScreenActive ? "#FFF" : "#000",
-                }}
-              >
-                Login
-              </Text>
-            </Pressable>
-
-            <Pressable style={styles.navBtn} onPress={handleNavigateSignup}>
-              <Text
-                style={{
-                  ...styles.navBtnTxt,
-                  color: !loginScreenActive ? "#FFF" : "#000",
-                }}
-              >
-                Signup
-              </Text>
-            </Pressable>
-          </View>
-        </View>
-
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: "#FFF",
-          }}
-        >
-          <Stack.Navigator
-            initialRouteName="Login"
-            screenOptions={{
-              headerShown: false,
-              animation: "slide_from_right",
-              contentStyle: {
-                backgroundColor: "#FFF",
-              },
+        <View style={styles.navContainer}>
+          <AnimatedView
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              left: 0,
+              top: 0,
+              borderRadius: 24,
             }}
           >
-            <Stack.Screen name="Login">
-              {() => <LoginTab handleNavigateSignup={handleNavigateSignup} />}
-            </Stack.Screen>
-            <Stack.Screen name="Signup" component={SignupTab} />
-          </Stack.Navigator>
+            <AnimatedView
+              style={[
+                {
+                  backgroundColor: "#007bff",
+                  width: "50%",
+                  height: "100%",
+                  borderRadius: 24,
+                },
+                animatedStyle,
+              ]}
+            />
+          </AnimatedView>
+          <Pressable style={styles.navBtn} onPress={handleNavigateLogin}>
+            <Text
+              style={{
+                ...styles.navBtnTxt,
+                color: loginScreenActive ? "#FFF" : "#000",
+              }}
+            >
+              Login
+            </Text>
+          </Pressable>
+
+          <Pressable style={styles.navBtn} onPress={handleNavigateSignup}>
+            <Text
+              style={{
+                ...styles.navBtnTxt,
+                color: !loginScreenActive ? "#FFF" : "#000",
+              }}
+            >
+              Signup
+            </Text>
+          </Pressable>
         </View>
       </View>
-    </KeyboardAvoidingView>
+
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#FFF",
+        }}
+      >
+        <Stack.Navigator
+          initialRouteName="Login"
+          screenOptions={{
+            headerShown: false,
+            animation: "slide_from_right",
+            contentStyle: {
+              backgroundColor: "#FFF",
+            },
+          }}
+        >
+          <Stack.Screen name="Login">
+            {() => <LoginTab handleNavigateSignup={handleNavigateSignup} />}
+          </Stack.Screen>
+          <Stack.Screen name="Signup" component={SignupTab} />
+        </Stack.Navigator>
+      </View>
+    </View>
   );
 };
 

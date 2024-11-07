@@ -2,15 +2,25 @@ import { View, Text, TextInput } from "react-native";
 import React from "react";
 import TextLabel from "./TextLabel";
 
-const InputField = ({ label, onChangeText, disabled, value, errMsg }) => {
+const InputField = ({
+  label,
+  onChangeText,
+  disabled,
+  value,
+  errMsg,
+  style,
+}) => {
   return (
     <View
-      style={{
-        flexDirection: "row",
-        width: "100%",
-        alignItems: "center",
-        gap: 8,
-      }}
+      style={[
+        {
+          flexDirection: "row",
+          width: "100%",
+          alignItems: "center",
+          gap: 8,
+        },
+        style,
+      ]}
     >
       <TextLabel>{label}:</TextLabel>
 
