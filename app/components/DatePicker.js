@@ -22,6 +22,8 @@ const DatePicker = ({ setDate, date, label }) => {
     showMode("date");
   };
 
+  const dateNow = new Date();
+
   return (
     <View
       style={{
@@ -51,7 +53,12 @@ const DatePicker = ({ setDate, date, label }) => {
             marginLeft: 8,
           }}
         >
-          {date ? date.toLocaleDateString("en-GB") : ""}
+          {date
+            ? date.toLocaleDateString("en-GB") ==
+              dateNow.toLocaleDateString("en-GB")
+              ? ""
+              : date.toLocaleDateString("en-GB")
+            : ""}
         </Text>
         <Ionicons
           name="calendar-clear-sharp"

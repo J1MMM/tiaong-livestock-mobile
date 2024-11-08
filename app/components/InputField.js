@@ -3,6 +3,7 @@ import React from "react";
 import TextLabel from "./TextLabel";
 
 const InputField = ({
+  inputMode,
   label,
   onChangeText,
   disabled,
@@ -37,6 +38,7 @@ const InputField = ({
         onChangeText={onChangeText}
         editable={!disabled}
         value={value}
+        inputMode={inputMode || "text"}
       />
     </View>
   );

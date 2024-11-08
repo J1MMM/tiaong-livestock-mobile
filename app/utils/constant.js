@@ -1,5 +1,5 @@
 // export const BASE_URL = "http://192.168.100.247:3500/api/farmers";
-export const BASE_URL = "http://10.10.0.190:3500/api/farmers";
+export const BASE_URL = "http://10.10.30.32:3500/api/farmers";
 
 export const BRGY = [
   "Anastacia",

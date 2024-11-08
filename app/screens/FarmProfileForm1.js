@@ -12,7 +12,7 @@ import useData from "../hooks/useData";
 import TextLabel from "../components/TextLabel";
 import Collapsible from "react-native-collapsible";
 import Checkbox from "expo-checkbox";
-import CheckboxInput from "../components/CheckBoxInput";
+import CheckboxInput from "../components/CheckboxInput";
 
 const ScreenWidth = Dimensions.get("window").width;
 
@@ -24,19 +24,16 @@ const FarmProfileForm1 = () => {
   const [errMsg, setErrMsg] = useState("");
   const [disabled, setDisabled] = useState(false);
 
-  const [selectedGender, setSelectedGender] = useState(null);
-
-  const handleGenderSelect = (gender) => {
-    setSelectedGender(gender);
-  };
+  const [farmerIsCollapsed, setFarmerIsCollapsed] = useState(true);
+  const [livestockCheckedIsCollapsed, setLivestockCheckedIsCollapsed] =
+    useState(true);
+  const [poultryCheckedIsCollapsed, setPoultryCheckedIsCollapsed] =
+    useState(true);
+  const [farmworkerIsCollapsed, setFarmworkerIsCollapsed] = useState(true);
+  const [kindOfWorkOtherIsCollapsed, setKindOfWorkOtherIsCollapsed] =
+    useState(true);
 
   const handlePressNextBtn = () => {
-    console.log(userData?.livelihood);
-    console.log(userData?.livestockChecked);
-    console.log(userData?.livestockSpecify);
-    console.log(userData?.poultryChecked);
-    console.log(userData?.poultrySpecify);
-
     if (!userData.livelihood) {
       setErrMsg("Please fill in all required fields.");
       return;
@@ -45,9 +42,18 @@ const FarmProfileForm1 = () => {
   };
 
   useEffect(() => {
+    setFarmerIsCollapsed(userData.livelihood == "Farmer" ? false : true);
+    setLivestockCheckedIsCollapsed(userData?.livestockChecked ? false : true);
+    setPoultryCheckedIsCollapsed(userData?.poultryChecked ? false : true);
+    setFarmworkerIsCollapsed(
+      userData?.livelihood == "Farmworker/Laborer" ? false : true
+    );
+    setKindOfWorkOtherIsCollapsed(userData?.kindOfWorkOther ? false : true);
+  }, [userData]);
+
+  useEffect(() => {
     setErrMsg("");
   }, [userData]);
-  console.log(userData.livelihood);
 
   return (
     <View
@@ -96,7 +102,7 @@ const FarmProfileForm1 = () => {
         />
         {/* farmer  */}
         <Collapsible
-          collapsed={userData.livelihood == "Farmer" ? false : true}
+          collapsed={farmerIsCollapsed}
           style={{ width: "100%", width: ScreenWidth - 100, gap: 8 }}
         >
           <TextLabel style={{ maxWidth: "none" }}>
@@ -112,7 +118,7 @@ const FarmProfileForm1 = () => {
           />
 
           <Collapsible
-            collapsed={userData?.livestockChecked ? false : true}
+            collapsed={livestockCheckedIsCollapsed}
             style={{ width: "100%" }}
           >
             <InputField
@@ -137,7 +143,7 @@ const FarmProfileForm1 = () => {
           />
 
           <Collapsible
-            collapsed={userData?.poultryChecked ? false : true}
+            collapsed={poultryCheckedIsCollapsed}
             style={{ width: "100%" }}
           >
             <InputField
@@ -156,9 +162,7 @@ const FarmProfileForm1 = () => {
 
         {/* Farmworker  */}
         <Collapsible
-          collapsed={
-            userData?.livelihood == "Farmworker/Laborer" ? false : true
-          }
+          collapsed={farmworkerIsCollapsed}
           style={{ width: "100%", width: ScreenWidth - 100, gap: 8 }}
         >
           <TextLabel style={{ maxWidth: "none" }}>Kind of Work:</TextLabel>
@@ -190,7 +194,7 @@ const FarmProfileForm1 = () => {
           />
 
           <Collapsible
-            collapsed={userData?.kindOfWorkOther ? false : true}
+            collapsed={kindOfWorkOtherIsCollapsed}
             style={{ width: "100%" }}
           >
             <InputField

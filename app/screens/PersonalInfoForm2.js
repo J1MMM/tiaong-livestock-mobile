@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import ButtonContained from "../components/ButtonContained";
@@ -9,12 +9,17 @@ import useData from "../hooks/useData";
 
 import DatePicker from "../components/DatePicker";
 import Collapsible from "react-native-collapsible";
+import CollapsibleField from "../components/Collapsible";
 
 const PersonalInfoFrom2 = () => {
   const navigate = useNavigation();
   const { userData, setUserData } = useData();
   const [errMsg, setErrMsg] = useState("");
   const [disabled, setDisabled] = useState(false);
+  const [religionIsCollapsed, setReligionIsCollapsed] = useState(true);
+  const [civilStatusIsCollapsed, setCivilStatusIsCollapsed] = useState(true);
+  const [householdHeadIsCollapsed, setHouseholdHeadIsCollapsed] =
+    useState(true);
 
   const handlePressNextBtn = () => {
     if (
@@ -31,6 +36,12 @@ const PersonalInfoFrom2 = () => {
     }
     navigate.navigate("PersonalInfo3");
   };
+
+  useEffect(() => {
+    setReligionIsCollapsed(userData.religion == "Others" ? false : true);
+    setCivilStatusIsCollapsed(userData.civilStatus == "Married" ? false : true);
+    setHouseholdHeadIsCollapsed(userData?.householdHead == "No" ? false : true);
+  }, [userData]);
 
   useEffect(() => {
     setErrMsg("");
@@ -70,6 +81,7 @@ const PersonalInfoFrom2 = () => {
             disabled={disabled}
             label="Contact No"
             value={userData.contactNo}
+            inputMode="tel"
             onChangeText={(value) =>
               setUserData((prev) => ({ ...prev, contactNo: value }))
             }
@@ -99,8 +111,9 @@ const PersonalInfoFrom2 = () => {
               setUserData((prev) => ({ ...prev, religion: value }))
             }
           />
+
           <Collapsible
-            collapsed={userData.religion == "Others" ? false : true}
+            collapsed={religionIsCollapsed}
             style={{ width: "100%" }}
           >
             <InputField
@@ -123,8 +136,8 @@ const PersonalInfoFrom2 = () => {
             }
           />
           <Collapsible
-            collapsed={userData?.civilStatus == "Married" ? false : true}
-            style={{ width: "100%" }}
+            collapsed={civilStatusIsCollapsed}
+            style={{ width: 300 }}
           >
             <InputField
               label="Name of Spouse(if married)"
@@ -154,7 +167,7 @@ const PersonalInfoFrom2 = () => {
           />
 
           <Collapsible
-            collapsed={userData?.householdHead == "No" ? false : true}
+            collapsed={householdHeadIsCollapsed}
             style={{ width: "100%" }}
           >
             <InputField
@@ -170,6 +183,7 @@ const PersonalInfoFrom2 = () => {
             label="No. of Living Household Members"
             disabled={disabled}
             value={userData.numberOfLivingHead}
+            inputMode="numeric"
             onChangeText={(value) =>
               setUserData((prev) => ({ ...prev, numberOfLivingHead: value }))
             }
@@ -186,6 +200,7 @@ const PersonalInfoFrom2 = () => {
                 label="No. of Male"
                 disabled={disabled}
                 value={userData.noMale}
+                inputMode="numeric"
                 onChangeText={(value) =>
                   setUserData((prev) => ({ ...prev, noMale: value }))
                 }
@@ -196,6 +211,7 @@ const PersonalInfoFrom2 = () => {
                 label="No. of Female"
                 disabled={disabled}
                 value={userData.noFemale}
+                inputMode="numeric"
                 onChangeText={(value) =>
                   setUserData((prev) => ({ ...prev, noFemale: value }))
                 }

@@ -8,12 +8,17 @@ import Dropdown from "../components/Dropdown";
 import useData from "../hooks/useData";
 import DatePicker from "../components/DatePicker";
 import Collapsible from "react-native-collapsible";
+import TextLabel from "../components/TextLabel";
 
 const PersonalInfoFrom3 = () => {
   const navigate = useNavigation();
   const { userData, setUserData } = useData();
   const [errMsg, setErrMsg] = useState("");
   const [disabled, setDisabled] = useState(false);
+
+  const [indigenousIsCollapse, setIndigenousIsCollapse] = useState(true);
+  const [idIsCollapse, setIdIsCollapse] = useState(true);
+  const [memberIsCollapse, setMemberIsCollapse] = useState(true);
 
   const handlePressNextBtn = () => {
     if (
@@ -30,6 +35,16 @@ const PersonalInfoFrom3 = () => {
     }
     navigate.navigate("FarmProfile1");
   };
+
+  useEffect(() => {
+    setIndigenousIsCollapse(
+      userData?.memberIndigenousGroup == "Yes" ? false : true
+    );
+    setIdIsCollapse(userData?.withGovernmentID == "Yes" ? false : true);
+    setMemberIsCollapse(
+      userData?.memberAssociationOrCooperative == "Yes" ? false : true
+    );
+  }, [userData]);
 
   useEffect(() => {
     setErrMsg("");
@@ -58,9 +73,11 @@ const PersonalInfoFrom3 = () => {
         {errMsg && (
           <Text style={{ color: "#FC0F3B", fontWeight: "bold" }}>{errMsg}</Text>
         )}
-
+        <View style={{ width: "100%", marginBottom: -20 }}>
+          <TextLabel>Highest</TextLabel>
+        </View>
         <Dropdown
-          label="Highest Formal Education"
+          label="Formal Education"
           options={[
             "None",
             "Elementary",
@@ -92,10 +109,7 @@ const PersonalInfoFrom3 = () => {
           }
         />
 
-        <Collapsible
-          collapsed={userData?.memberIndigenousGroup == "Yes" ? false : true}
-          style={{ width: "100%" }}
-        >
+        <Collapsible collapsed={indigenousIsCollapse} style={{ width: "100%" }}>
           <InputField
             label="If yes, Specify"
             disabled={disabled}
@@ -118,10 +132,7 @@ const PersonalInfoFrom3 = () => {
           }
         />
 
-        <Collapsible
-          collapsed={userData?.withGovernmentID == "Yes" ? false : true}
-          style={{ width: "100%" }}
-        >
+        <Collapsible collapsed={idIsCollapse} style={{ width: "100%" }}>
           <InputField
             label="Specify ID Number"
             disabled={disabled}
@@ -147,12 +158,7 @@ const PersonalInfoFrom3 = () => {
           }
         />
 
-        <Collapsible
-          collapsed={
-            userData?.memberAssociationOrCooperative == "Yes" ? false : true
-          }
-          style={{ width: "100%" }}
-        >
+        <Collapsible collapsed={memberIsCollapse} style={{ width: "100%" }}>
           <InputField
             label="If yes, Specify"
             disabled={disabled}
@@ -182,6 +188,7 @@ const PersonalInfoFrom3 = () => {
           label="Contact Number"
           disabled={disabled}
           value={userData.contactPersonToNotifyInCaseEmergency}
+          inputMode="tel"
           onChangeText={(value) =>
             setUserData((prev) => ({
               ...prev,

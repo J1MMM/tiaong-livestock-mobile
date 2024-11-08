@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Dimensions, Text, View } from "react-native";
+import { Button, Dimensions, Image, Text, View } from "react-native";
 import axios from "../api/axios";
 import ButtonContained from "../components/ButtonContained";
 import ButtonOutlined from "../components/ButtonOutlined";
@@ -12,8 +12,7 @@ import useData from "../hooks/useData";
 import TextLabel from "../components/TextLabel";
 import Collapsible from "react-native-collapsible";
 import Checkbox from "expo-checkbox";
-import CheckboxInput from "../components/CheckBoxInput";
-
+import * as ImagePicker from "expo-image-picker";
 const ScreenWidth = Dimensions.get("window").width;
 
 const FarmProfileForm3 = () => {
@@ -24,23 +23,45 @@ const FarmProfileForm3 = () => {
   const [errMsg, setErrMsg] = useState("");
   const [disabled, setDisabled] = useState(false);
 
-  const [selectedGender, setSelectedGender] = useState(null);
-
-  const handleGenderSelect = (gender) => {
-    setSelectedGender(gender);
-  };
-
   const handlePressNextBtn = () => {
-    if (true) {
+    if (!userData?.idImage || !userData?.userImage) {
       setErrMsg("Please fill in all required fields.");
       return;
     }
-    navigate.navigate("FarmProfile4");
+    navigate.navigate("ReviewForm");
   };
 
   useEffect(() => {
     setErrMsg("");
   }, [userData]);
+
+  const pickIDImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [5, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setUserData((prev) => ({ ...prev, idImage: result.assets[0].uri }));
+    }
+  };
+
+  const pickUserImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setUserData((prev) => ({ ...prev, userImage: result.assets[0].uri }));
+    }
+  };
 
   return (
     <View
@@ -66,6 +87,29 @@ const FarmProfileForm3 = () => {
           <Text style={{ color: "#FC0F3B", fontWeight: "bold" }}>{errMsg}</Text>
         )}
 
+        <TextLabel>Upload Valid ID:</TextLabel>
+        <ButtonContained label="Upload Photo" onPress={pickIDImage} />
+        {userData.idImage && (
+          <Image
+            source={{ uri: userData.idImage }}
+            style={{
+              width: "100%",
+              height: 200,
+            }}
+          />
+        )}
+
+        <TextLabel>Upload 2x2 Picture:</TextLabel>
+        <ButtonContained label="Upload Photo" onPress={pickUserImage} />
+        {userData.userImage && (
+          <Image
+            source={{ uri: userData.userImage }}
+            style={{
+              width: 200,
+              height: 200,
+            }}
+          />
+        )}
         <View
           style={{
             flexDirection: "row",
@@ -87,7 +131,7 @@ const FarmProfileForm3 = () => {
               width: "50%",
             }}
           >
-            <ButtonContained label="Next" onPress={handlePressNextBtn} />
+            <ButtonContained label="Submit" onPress={handlePressNextBtn} />
           </View>
         </View>
       </View>

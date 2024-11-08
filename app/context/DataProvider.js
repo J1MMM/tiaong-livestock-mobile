@@ -14,7 +14,7 @@ export const DataProvider = ({ children }) => {
     barangay: "",
 
     contactNo: "",
-    birthDate: null,
+    birthDate: undefined,
     birthPlace: "",
     religion: "",
     specifyReligion: "",
@@ -51,6 +51,10 @@ export const DataProvider = ({ children }) => {
 
     grossAnnualIncome: "",
     specifyGrossAnnualIncome: "",
+
+    specifyGrossAnnualIncome: "",
+    idImage: null,
+    userImage: null,
   });
 
   return (

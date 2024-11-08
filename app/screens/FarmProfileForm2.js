@@ -9,10 +9,6 @@ import RadioInputField from "../components/RadioInputField";
 import { BRGY } from "../utils/constant";
 import Dropdown from "../components/Dropdown";
 import useData from "../hooks/useData";
-import TextLabel from "../components/TextLabel";
-import Collapsible from "react-native-collapsible";
-import Checkbox from "expo-checkbox";
-import CheckboxInput from "../components/CheckBoxInput";
 
 const ScreenWidth = Dimensions.get("window").width;
 
@@ -92,6 +88,7 @@ const FarmProfileForm2 = () => {
           label="Enter your Gross Annual Income"
           disabled={disabled}
           value={userData.specifyGrossAnnualIncome}
+          inputMode="numeric"
           onChangeText={(value) =>
             setUserData((prev) => ({
               ...prev,

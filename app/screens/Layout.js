@@ -19,6 +19,7 @@ import PersonalInfoFrom1 from "./PersonalInfoFrom1";
 import FarmProfileForm1 from "./FarmProfileForm1";
 import FarmProfileForm2 from "./FarmProfileForm2";
 import FarmProfileForm3 from "./FarmProfileForm3";
+import ReviewForm from "./ReviewForm";
 
 const Stack = createNativeStackNavigator();
 const boldFont = require("../../assets/fonts/VAGRoundedStd-Black.otf");
@@ -77,7 +78,7 @@ const Layout = () => {
           ) : auth?.accessToken ? (
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
           ) : (
-            <Stack.Screen name="LoginScreen" component={PersonalInfoFrom1} />
+            <Stack.Screen name="LoginScreen" component={ReviewForm} />
           )}
 
           <Stack.Screen
@@ -123,6 +124,11 @@ const Layout = () => {
             name="FarmProfile3"
             options={{ animation: "slide_from_right" }}
             component={FarmProfileForm3}
+          />
+          <Stack.Screen
+            name="ReviewForm"
+            options={{ animation: "slide_from_right" }}
+            component={ReviewForm}
           />
         </Stack.Navigator>
         {/* <BgMusic /> */}
