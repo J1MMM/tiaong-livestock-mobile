@@ -10,6 +10,7 @@ const InputField = ({
   value,
   errMsg,
   style,
+  autoComplete,
 }) => {
   return (
     <View
@@ -39,6 +40,7 @@ const InputField = ({
         editable={!disabled}
         value={value}
         inputMode={inputMode || "text"}
+        autoComplete={autoComplete || "off"}
       />
     </View>
   );

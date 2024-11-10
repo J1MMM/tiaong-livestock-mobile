@@ -54,10 +54,10 @@ const DatePicker = ({ setDate, date, label }) => {
           }}
         >
           {date
-            ? date.toLocaleDateString("en-GB") ==
-              dateNow.toLocaleDateString("en-GB")
+            ? date?.toLocaleDateString("en-GB") ==
+              dateNow?.toLocaleDateString("en-GB")
               ? ""
-              : date.toLocaleDateString("en-GB")
+              : date?.toLocaleDateString("en-GB")
             : ""}
         </Text>
         <Ionicons

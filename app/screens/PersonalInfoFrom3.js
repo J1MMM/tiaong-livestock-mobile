@@ -101,6 +101,15 @@ const PersonalInfoFrom3 = () => {
         />
 
         <RadioInputField
+          label="4P's Beneficiary"
+          options={["Yes", "No"]}
+          value={userData._4ps}
+          setValue={(value) =>
+            setUserData((prev) => ({ ...prev, _4ps: value }))
+          }
+        />
+
+        <RadioInputField
           label="Member of an Indigenous Group"
           options={["Yes", "No"]}
           value={userData.memberIndigenousGroup}
@@ -134,13 +143,24 @@ const PersonalInfoFrom3 = () => {
 
         <Collapsible collapsed={idIsCollapse} style={{ width: "100%" }}>
           <InputField
-            label="Specify ID Number"
+            label="Specify ID Type"
             disabled={disabled}
             value={userData.specifyGovernmentID}
             onChangeText={(value) =>
               setUserData((prev) => ({
                 ...prev,
                 specifyGovernmentID: value,
+              }))
+            }
+          />
+          <InputField
+            label="ID Number"
+            disabled={disabled}
+            value={userData.idNumber}
+            onChangeText={(value) =>
+              setUserData((prev) => ({
+                ...prev,
+                idNumber: value,
               }))
             }
           />

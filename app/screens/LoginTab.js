@@ -14,10 +14,12 @@ import { PAGE_CONTAINER_STYLES } from "../styles";
 import { useNavigation } from "@react-navigation/native";
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
+import useData from "../hooks/useData";
 const logo = require("../../assets/images/logo.jpg");
 
 const LoginTab = ({ handleNavigateSignup }) => {
   const { setAuth } = useAuth();
+  const { setUserData } = useData();
   const navigate = useNavigation();
   const [referenceNo, setReferenceNo] = useState("");
   const [password, setPassword] = useState("");
@@ -38,14 +40,16 @@ const LoginTab = ({ handleNavigateSignup }) => {
 
     try {
       const response = await axios.post("/auth", { referenceNo, password });
-      console.log("response.data");
-      console.log(response.data);
-      setAuth(response.data);
-
       await SecureStore.setItemAsync(
-        "auth-data",
-        JSON.stringify(response.data)
+        "refreshToken",
+        JSON.stringify(response.data?.refreshToken)
       );
+      setUserData(response.data);
+      setAuth((prev) => ({
+        ...prev,
+        authenticated: true,
+        isApprove: response.data?.isApprove,
+      }));
     } catch (error) {
       console.log(error);
       setErrMsg(error?.response?.data?.message);
@@ -73,7 +77,7 @@ const LoginTab = ({ handleNavigateSignup }) => {
       >
         <TextInput
           style={styles.input}
-          placeholder="Reference No."
+          placeholder="Email / Reference No."
           placeholderTextColor="#888"
           onChangeText={(e) => setReferenceNo(e)}
           value={referenceNo}

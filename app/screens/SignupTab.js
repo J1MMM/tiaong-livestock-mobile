@@ -13,11 +13,13 @@ import { PAGE_CONTAINER_STYLES } from "../styles";
 import { useNavigation } from "@react-navigation/native";
 import useAuth from "../hooks/useAuth";
 import axios from "../api/axios";
+import useData from "../hooks/useData";
 const logo = require("../../assets/images/logo.jpg");
 
 const SignupTab = () => {
   const navigate = useNavigation();
   const { setAuth } = useAuth();
+  const { setUserData } = useData();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -50,6 +52,7 @@ const SignupTab = () => {
       setPassword2("");
 
       navigate.navigate("VerifyEmail", { email: email, id: response.data });
+      setUserData((prev) => ({ ...prev, id: response.data }));
     } catch (error) {
       console.log(error);
       setErrMsg(error?.response?.data?.message);

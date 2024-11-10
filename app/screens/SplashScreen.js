@@ -2,10 +2,7 @@ import React, { useEffect } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import LottieView from "lottie-react-native";
 
-const Splash = ({ setIsLoading }) => {
-  useEffect(() => {
-    setIsLoading(false);
-  });
+const Splash = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.loading}>Loading Please Wait...</Text>
@@ -18,7 +15,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#91CBF9",
+    backgroundColor: "#FFF",
   },
   title: {
     fontFamily: "bold",

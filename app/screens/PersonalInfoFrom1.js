@@ -95,6 +95,7 @@ const PersonalInfoFrom1 = () => {
           onChangeText={(value) =>
             setUserData((prev) => ({ ...prev, surname: value }))
           }
+          autoComplete="name-family"
         />
 
         <InputField
@@ -104,6 +105,7 @@ const PersonalInfoFrom1 = () => {
           onChangeText={(value) =>
             setUserData((prev) => ({ ...prev, firstname: value }))
           }
+          autoComplete="name-given"
         />
 
         <InputField
@@ -113,6 +115,7 @@ const PersonalInfoFrom1 = () => {
           onChangeText={(value) =>
             setUserData((prev) => ({ ...prev, middlename: value }))
           }
+          autoComplete="name-middle"
         />
 
         <InputField
@@ -122,6 +125,7 @@ const PersonalInfoFrom1 = () => {
           onChangeText={(value) =>
             setUserData((prev) => ({ ...prev, extensionName: value }))
           }
+          autoComplete="name-prefix"
         />
 
         <RadioInputField
@@ -147,6 +151,7 @@ const PersonalInfoFrom1 = () => {
           onChangeText={(value) =>
             setUserData((prev) => ({ ...prev, houseNo: value }))
           }
+          autoComplete="street-address"
         />
 
         <InputField
@@ -156,6 +161,7 @@ const PersonalInfoFrom1 = () => {
           onChangeText={(value) =>
             setUserData((prev) => ({ ...prev, street: value }))
           }
+          autoComplete="street-address"
         />
 
         <Dropdown

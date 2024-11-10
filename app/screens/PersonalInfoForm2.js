@@ -89,7 +89,9 @@ const PersonalInfoFrom2 = () => {
 
           <DatePicker
             label={"Date of Birth"}
-            date={userData.birthDate || new Date()}
+            date={
+              userData?.birthDate ? new Date(userData?.birthDate) : new Date()
+            }
             setDate={(v) => setUserData((prev) => ({ ...prev, birthDate: v }))}
           />
 
@@ -176,6 +178,17 @@ const PersonalInfoFrom2 = () => {
               value={userData.nameOfHouseholdHead}
               onChangeText={(value) =>
                 setUserData((prev) => ({ ...prev, nameOfHouseholdHead: value }))
+              }
+            />
+            <InputField
+              label="Relationship"
+              disabled={disabled}
+              value={userData.householdRelationship}
+              onChangeText={(value) =>
+                setUserData((prev) => ({
+                  ...prev,
+                  householdRelationship: value,
+                }))
               }
             />
           </Collapsible>

@@ -20,6 +20,8 @@ import FarmProfileForm1 from "./FarmProfileForm1";
 import FarmProfileForm2 from "./FarmProfileForm2";
 import FarmProfileForm3 from "./FarmProfileForm3";
 import ReviewForm from "./ReviewForm";
+import PendingAccScreen from "./PendingAccScreen";
+import PersistLogin from "./PersistLogin";
 
 const Stack = createNativeStackNavigator();
 const boldFont = require("../../assets/fonts/VAGRoundedStd-Black.otf");
@@ -60,80 +62,96 @@ const Layout = () => {
     SplashScreen.hideAsync();
   }
 
+  console.log(auth);
+
   return (
     <View style={{ flex: 1 }}>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            orientation: "portrait",
-            headerShown: false,
-            animation: "fade",
-            navigationBarHidden: true,
-          }}
-        >
-          {isLoading ? (
-            <Stack.Screen name="Splash">
-              {() => <Splash setIsLoading={setIsLoading} />}
-            </Stack.Screen>
-          ) : auth?.accessToken ? (
-            <Stack.Screen name="HomeScreen" component={HomeScreen} />
-          ) : (
-            <Stack.Screen name="LoginScreen" component={ReviewForm} />
-          )}
+      <PersistLogin>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              orientation: "portrait",
+              headerShown: false,
+              animation: "fade",
+              navigationBarHidden: true,
+            }}
+          >
+            {auth?.authenticated ? (
+              auth?.isApprove ? (
+                <Stack.Screen
+                  name="HomeScreen"
+                  options={{ animation: "slide_from_bottom" }}
+                  component={HomeScreen}
+                />
+              ) : (
+                <Stack.Screen
+                  name="PendingAcc"
+                  options={{ animation: "slide_from_bottom" }}
+                  component={PendingAccScreen}
+                />
+              )
+            ) : (
+              <Stack.Screen
+                name="LoginScreen"
+                options={{ animation: "slide_from_bottom" }}
+                component={LoginScreen}
+              />
+            )}
 
-          <Stack.Screen
-            name="ForgotPass"
-            options={{ animation: "slide_from_right" }}
-            component={ForgotPassScreen}
-          />
-          <Stack.Screen
-            name="VerifyEmail"
-            options={{ animation: "slide_from_right" }}
-            component={VerifyEmailScreen}
-          />
+            <Stack.Screen
+              name="ForgotPass"
+              options={{ animation: "slide_from_right" }}
+              component={ForgotPassScreen}
+            />
+            <Stack.Screen
+              name="VerifyEmail"
+              options={{ animation: "slide_from_right" }}
+              component={VerifyEmailScreen}
+            />
 
-          <Stack.Screen
-            name="PersonalInfo"
-            options={{ animation: "slide_from_right" }}
-            component={PersonalInfoFrom1}
-          />
+            <Stack.Screen
+              name="PersonalInfo"
+              options={{ animation: "slide_from_right" }}
+              component={PersonalInfoFrom1}
+            />
 
-          <Stack.Screen
-            name="PersonalInfo2"
-            options={{ animation: "slide_from_right" }}
-            component={PersonalInfoFrom2}
-          />
+            <Stack.Screen
+              name="PersonalInfo2"
+              options={{ animation: "slide_from_right" }}
+              component={PersonalInfoFrom2}
+            />
 
-          <Stack.Screen
-            name="PersonalInfo3"
-            options={{ animation: "slide_from_right" }}
-            component={PersonalInfoFrom3}
-          />
+            <Stack.Screen
+              name="PersonalInfo3"
+              options={{ animation: "slide_from_right" }}
+              component={PersonalInfoFrom3}
+            />
 
-          <Stack.Screen
-            name="FarmProfile1"
-            options={{ animation: "slide_from_right" }}
-            component={FarmProfileForm1}
-          />
-          <Stack.Screen
-            name="FarmProfile2"
-            options={{ animation: "slide_from_right" }}
-            component={FarmProfileForm2}
-          />
-          <Stack.Screen
-            name="FarmProfile3"
-            options={{ animation: "slide_from_right" }}
-            component={FarmProfileForm3}
-          />
-          <Stack.Screen
-            name="ReviewForm"
-            options={{ animation: "slide_from_right" }}
-            component={ReviewForm}
-          />
-        </Stack.Navigator>
-        {/* <BgMusic /> */}
-        <StatusBar animated translucent />
-      </NavigationContainer>
+            <Stack.Screen
+              name="FarmProfile1"
+              options={{ animation: "slide_from_right" }}
+              component={FarmProfileForm1}
+            />
+            <Stack.Screen
+              name="FarmProfile2"
+              options={{ animation: "slide_from_right" }}
+              component={FarmProfileForm2}
+            />
+            <Stack.Screen
+              name="FarmProfile3"
+              options={{ animation: "slide_from_right" }}
+              component={FarmProfileForm3}
+            />
+            <Stack.Screen
+              name="ReviewForm"
+              options={{ animation: "slide_from_right" }}
+              component={ReviewForm}
+            />
+          </Stack.Navigator>
+          {/* <BgMusic /> */}
+          <StatusBar animated translucent />
+        </NavigationContainer>
+      </PersistLogin>
     </View>
   );
 };

@@ -58,13 +58,22 @@ const LoginScreen = () => {
     >
       <View
         style={{
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
           alignItems: "center",
           flex: 1,
           gap: 40,
         }}
       >
-        <Image source={logo} style={{ maxWidth: 125, maxHeight: 125 }} />
+        <View
+          style={{
+            flexGrow: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 100,
+          }}
+        >
+          <Image source={logo} style={{ maxWidth: 125, maxHeight: 125 }} />
+        </View>
 
         <View style={styles.navContainer}>
           <AnimatedView
