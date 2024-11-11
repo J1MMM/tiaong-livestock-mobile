@@ -56,7 +56,9 @@ export const USER_INITIAL_DATA = {
 
   specifyGrossAnnualIncome: "",
   idImage: null,
+  idImageUri: null,
   userImage: null,
+  userImageUri: null,
 };
 
 export const BRGY = [

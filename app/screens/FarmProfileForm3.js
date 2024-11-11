@@ -18,10 +18,7 @@ const ScreenWidth = Dimensions.get("window").width;
 const FarmProfileForm3 = () => {
   const navigate = useNavigation();
   const { userData, setUserData } = useData();
-  const [verificationCode, setVerificationCode] = useState("");
-  const [brgy, setBrgy] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  const [disabled, setDisabled] = useState(false);
 
   const handlePressNextBtn = () => {
     if (!userData?.idImage || !userData?.userImage) {
@@ -42,10 +39,16 @@ const FarmProfileForm3 = () => {
       allowsEditing: true,
       aspect: [5, 3],
       quality: 1,
+      base64: true,
     });
 
     if (!result.canceled) {
-      setUserData((prev) => ({ ...prev, idImage: result.assets[0].uri }));
+      const base64Image = result.assets[0].base64;
+      setUserData((prev) => ({
+        ...prev,
+        idImage: { data: base64Image, contentType: "image/jpeg" },
+        idImageUri: result.assets[0].uri,
+      }));
     }
   };
 
@@ -56,10 +59,16 @@ const FarmProfileForm3 = () => {
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
+      base64: true,
     });
 
     if (!result.canceled) {
-      setUserData((prev) => ({ ...prev, userImage: result.assets[0].uri }));
+      const base64Image = result.assets[0].base64;
+      setUserData((prev) => ({
+        ...prev,
+        userImage: { data: base64Image, contentType: "image/jpeg" },
+        userImageUri: result.assets[0].uri,
+      }));
     }
   };
 
@@ -89,9 +98,9 @@ const FarmProfileForm3 = () => {
 
         <TextLabel>Upload Valid ID:</TextLabel>
         <ButtonContained label="Upload Photo" onPress={pickIDImage} />
-        {userData.idImage && (
+        {userData.idImageUri && (
           <Image
-            source={{ uri: userData.idImage }}
+            source={{ uri: userData.idImageUri }}
             style={{
               width: "100%",
               height: 200,
@@ -101,9 +110,9 @@ const FarmProfileForm3 = () => {
 
         <TextLabel>Upload 2x2 Picture:</TextLabel>
         <ButtonContained label="Upload Photo" onPress={pickUserImage} />
-        {userData.userImage && (
+        {userData.userImageUri && (
           <Image
-            source={{ uri: userData.userImage }}
+            source={{ uri: userData.userImageUri }}
             style={{
               width: 200,
               height: 200,

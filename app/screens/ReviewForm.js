@@ -1,3 +1,4 @@
+import * as SecureStore from "expo-secure-store";
 import { StackActions, useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
@@ -8,7 +9,6 @@ import {
   Text,
   View,
 } from "react-native";
-import axios from "../api/axios";
 import ButtonContained from "../components/ButtonContained";
 import ButtonOutlined from "../components/ButtonOutlined";
 import InputField from "../components/InputField";
@@ -21,6 +21,7 @@ import Collapsible from "react-native-collapsible";
 import Checkbox from "expo-checkbox";
 import * as ImagePicker from "expo-image-picker";
 import useAuth from "../hooks/useAuth";
+import axios from "axios";
 const ScreenWidth = Dimensions.get("window").width;
 const ScreenHeight = Dimensions.get("window").height;
 
@@ -37,9 +38,16 @@ const ReviewForm = () => {
     setErrMsg("");
     setDisabled(true);
     try {
-      const response = await axios.post("/pending-account", userData);
+      const response = await axios.post(
+        "http://192.168.100.247:3500/api/farmers/pending-account",
+        userData
+      );
 
-      console.log(response.data);
+      await SecureStore.setItemAsync(
+        "refreshToken",
+        JSON.stringify(response.data?.refreshToken)
+      );
+
       setAuth((prev) => ({ ...prev, authenticated: true }));
       navigate.reset({
         index: 0,
@@ -47,7 +55,7 @@ const ReviewForm = () => {
       });
       setUserData(USER_INITIAL_DATA);
     } catch (error) {
-      console.log(error);
+      console.log(error?.response?.data);
       setErrMsg(error?.response?.data?.message);
     }
     setDisabled(false);
@@ -111,9 +119,9 @@ const ReviewForm = () => {
             <View
               style={{ flexDirection: "row", alignItems: "center", gap: 16 }}
             >
-              {userData.userImage && (
+              {userData.userImageUri && (
                 <Image
-                  source={{ uri: userData.userImage }}
+                  source={{ uri: userData.userImageUri }}
                   alt="user.jpg"
                   style={{
                     width: 100,
@@ -385,9 +393,9 @@ const ReviewForm = () => {
               </TextLabel>
             </View>
 
-            {userData.idImage && (
+            {userData.idImageUri && (
               <Image
-                source={{ uri: userData.idImage }}
+                source={{ uri: userData.idImageUri }}
                 alt="id.jpg"
                 style={{
                   width: "100%",

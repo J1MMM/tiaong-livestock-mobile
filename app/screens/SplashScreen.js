@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, Text } from "react-native";
 import LottieView from "lottie-react-native";
-
+import React, { useEffect } from "react";
+import { View, StyleSheet, Text, ActivityIndicator } from "react-native";
 const Splash = () => {
   return (
     <View style={styles.container}>
+      <ActivityIndicator color="#007bff" size={50} />
       <Text style={styles.loading}>Loading Please Wait...</Text>
     </View>
   );
@@ -16,21 +16,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFF",
+    gap: 24,
   },
-  title: {
-    fontFamily: "bold",
-    fontSize: 45,
-    letterSpacing: 2,
-    color: "#3d3d59",
-  },
-  subTitle: {
-    fontFamily: "bold",
-    color: "#3d3d59",
-    letterSpacing: 1,
-    marginTop: -4,
-  },
+
   loading: {
-    color: "#3d3d59",
+    color: "#007bff",
     fontFamily: "bold",
     fontSize: 16,
     letterSpacing: 1,

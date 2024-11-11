@@ -7,7 +7,9 @@ const UseRefreshToken = () => {
 
   const refresh = async () => {
     try {
+      // await SecureStore.deleteItemAsync("refreshToken");
       const refreshToken = await SecureStore.getItemAsync("refreshToken");
+      if (!refreshToken) return;
       console.log(JSON.parse(refreshToken));
 
       const response = await axios.get(
@@ -17,8 +19,8 @@ const UseRefreshToken = () => {
       setAuth((prev) => ({
         ...prev,
         accessToken: response.data?.accessToken,
-        authenticated: true,
         isApprove: response.data?.isApprove,
+        authenticated: true,
       }));
 
       return response.data.accessToken;
