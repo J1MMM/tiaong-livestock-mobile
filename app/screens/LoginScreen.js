@@ -30,15 +30,11 @@ const LoginScreen = () => {
   const [loginScreenActive, setLoginScreenActive] = useState(true);
 
   const handleNavigateLogin = () => {
-    translateX.value = withTiming(0);
     navigate.navigate("Login");
-    setLoginScreenActive(true);
   };
 
   const handleNavigateSignup = () => {
-    translateX.value = withTiming(ScreenWidth / 2 - 26);
     navigate.navigate("Signup");
-    setLoginScreenActive(false);
   };
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -139,9 +135,22 @@ const LoginScreen = () => {
           }}
         >
           <Stack.Screen name="Login">
-            {() => <LoginTab handleNavigateSignup={handleNavigateSignup} />}
+            {() => (
+              <LoginTab
+                handleNavigateSignup={handleNavigateSignup}
+                setLoginScreenActive={setLoginScreenActive}
+                translateX={translateX}
+              />
+            )}
           </Stack.Screen>
-          <Stack.Screen name="Signup" component={SignupTab} />
+          <Stack.Screen name="Signup">
+            {() => (
+              <SignupTab
+                setLoginScreenActive={setLoginScreenActive}
+                translateX={translateX}
+              />
+            )}
+          </Stack.Screen>
         </Stack.Navigator>
       </View>
     </View>

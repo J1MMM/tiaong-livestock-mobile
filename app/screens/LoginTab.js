@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import NetInfo from "@react-native-community/netinfo";
 import * as SecureStore from "expo-secure-store";
@@ -11,13 +11,18 @@ import {
   View,
 } from "react-native";
 import { PAGE_CONTAINER_STYLES } from "../styles";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
 import useData from "../hooks/useData";
+import { withTiming } from "react-native-reanimated";
 const logo = require("../../assets/images/logo.jpg");
 
-const LoginTab = ({ handleNavigateSignup }) => {
+const LoginTab = ({
+  handleNavigateSignup,
+  setLoginScreenActive,
+  translateX,
+}) => {
   const { setAuth } = useAuth();
   const { setUserData } = useData();
   const navigate = useNavigation();
@@ -27,6 +32,16 @@ const LoginTab = ({ handleNavigateSignup }) => {
   const [formDisabled, setFormDisabled] = useState(false);
 
   const [pwdVisible, setPwdVisible] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      translateX.value = withTiming(0);
+
+      setTimeout(() => {
+        setLoginScreenActive(true);
+      }, 100);
+    }, [])
+  );
 
   const handleLogin = async () => {
     setFormDisabled(true);

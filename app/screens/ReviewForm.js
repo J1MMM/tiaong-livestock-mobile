@@ -21,7 +21,7 @@ import Collapsible from "react-native-collapsible";
 import Checkbox from "expo-checkbox";
 import * as ImagePicker from "expo-image-picker";
 import useAuth from "../hooks/useAuth";
-import axios from "axios";
+import axios from "../api/axios";
 const ScreenWidth = Dimensions.get("window").width;
 const ScreenHeight = Dimensions.get("window").height;
 
@@ -38,10 +38,7 @@ const ReviewForm = () => {
     setErrMsg("");
     setDisabled(true);
     try {
-      const response = await axios.post(
-        "http://192.168.100.247:3500/api/farmers/pending-account",
-        userData
-      );
+      const response = await axios.post("/pending-account", userData);
 
       await SecureStore.setItemAsync(
         "refreshToken",

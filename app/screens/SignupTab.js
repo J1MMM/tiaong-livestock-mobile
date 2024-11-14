@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import NetInfo from "@react-native-community/netinfo";
 import {
+  Dimensions,
   Image,
   Pressable,
   StyleSheet,
@@ -10,13 +11,15 @@ import {
   View,
 } from "react-native";
 import { PAGE_CONTAINER_STYLES } from "../styles";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import useAuth from "../hooks/useAuth";
 import axios from "../api/axios";
 import useData from "../hooks/useData";
+import { withTiming } from "react-native-reanimated";
 const logo = require("../../assets/images/logo.jpg");
+const ScreenWidth = Dimensions.get("window").width;
 
-const SignupTab = () => {
+const SignupTab = ({ setLoginScreenActive, translateX }) => {
   const navigate = useNavigation();
   const { setAuth } = useAuth();
   const { setUserData } = useData();
@@ -29,6 +32,15 @@ const SignupTab = () => {
   const [pwdVisible, setPwdVisible] = useState(false);
   const [pwdVisible2, setPwdVisible2] = useState(false);
 
+  useFocusEffect(
+    useCallback(() => {
+      translateX.value = withTiming(ScreenWidth / 2 - 26);
+
+      setTimeout(() => {
+        setLoginScreenActive(false);
+      }, 100);
+    }, [])
+  );
   const handleSubmitSignup = async () => {
     setFormDisabled(true);
     NetInfo.fetch().then((state) => {
