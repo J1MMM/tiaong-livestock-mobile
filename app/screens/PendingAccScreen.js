@@ -12,7 +12,7 @@ const PendingAccScreen = () => {
   const [errMsg, setErrMsg] = useState("");
   const [disabled, setDisabled] = useState(false);
   const handleLogout = async () => {
-    setAuth((prev) => ({ ...prev, authenticated: false }));
+    setAuth((prev) => ({ authenticated: false }));
     await SecureStore.deleteItemAsync("refreshToken");
 
     // navigate.reset({

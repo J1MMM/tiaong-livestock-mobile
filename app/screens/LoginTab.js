@@ -64,6 +64,7 @@ const LoginTab = ({
         ...prev,
         authenticated: true,
         isApprove: response.data?.isApprove,
+        id: response.data?.id,
       }));
     } catch (error) {
       console.log(error);

@@ -10,7 +10,6 @@ const UseRefreshToken = () => {
       // await SecureStore.deleteItemAsync("refreshToken");
       const refreshToken = await SecureStore.getItemAsync("refreshToken");
       if (!refreshToken) return;
-      console.log(JSON.parse(refreshToken));
 
       const response = await axios.get(
         `/refresh?refreshToken=${JSON.parse(refreshToken)}`
@@ -21,6 +20,7 @@ const UseRefreshToken = () => {
         accessToken: response.data?.accessToken,
         isApprove: response.data?.isApprove,
         authenticated: true,
+        id: response.data?.id,
       }));
 
       return response.data.accessToken;
