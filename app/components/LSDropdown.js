@@ -3,7 +3,14 @@ import { Dimensions, Text, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 const ScreenWidth = Dimensions.get("window").width;
 
-function LSDropdown({ label, options, value, setValue, placeholder }) {
+function LSDropdown({
+  label,
+  options,
+  value,
+  setValue,
+  placeholder,
+  disabled,
+}) {
   return (
     <View
       style={{
@@ -29,6 +36,7 @@ function LSDropdown({ label, options, value, setValue, placeholder }) {
         }}
       >
         <RNPickerSelect
+          disabled={disabled}
           value={value}
           onValueChange={(e) => setValue(e)}
           items={

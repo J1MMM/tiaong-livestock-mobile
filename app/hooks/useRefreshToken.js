@@ -1,9 +1,11 @@
 import axios from "../api/axios";
 import useAuth from "./useAuth";
 import * as SecureStore from "expo-secure-store";
+import useData from "./useData";
 
 const UseRefreshToken = () => {
   const { setAuth } = useAuth();
+  const { setUserData } = useData();
 
   const refresh = async () => {
     try {
@@ -14,14 +16,16 @@ const UseRefreshToken = () => {
       const response = await axios.get(
         `/refresh?refreshToken=${JSON.parse(refreshToken)}`
       );
-      console.log(response.data);
+
       setAuth((prev) => ({
         ...prev,
+        id: response.data?.id,
         accessToken: response.data?.accessToken,
         isApprove: response.data?.isApprove,
         authenticated: true,
-        id: response.data?.id,
       }));
+
+      setUserData(response.data);
 
       return response.data.accessToken;
     } catch (error) {

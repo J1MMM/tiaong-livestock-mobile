@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import ButtonContained from "../components/ButtonContained";
 import useAuth from "../hooks/useAuth";
 import * as SecureStore from "expo-secure-store";
+import UseLogout from "../hooks/useLogout";
 
 const PendingAccScreen = () => {
   const navigate = useNavigation();
@@ -11,15 +12,7 @@ const PendingAccScreen = () => {
   const [email, setEmail] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const handleLogout = async () => {
-    setAuth((prev) => ({ authenticated: false }));
-    await SecureStore.deleteItemAsync("refreshToken");
-
-    // navigate.reset({
-    //   index: 0,
-    //   routes: [{ name: "LoginScreen" }],
-    // });
-  };
+  const logout = UseLogout();
 
   return (
     <View
@@ -71,7 +64,7 @@ const PendingAccScreen = () => {
             if you want to check it again, please log in to your account again
           </Text>
 
-          <ButtonContained onPress={handleLogout} label="Go to Login" />
+          <ButtonContained onPress={logout} label="Go to Login" />
         </View>
       </View>
     </View>
