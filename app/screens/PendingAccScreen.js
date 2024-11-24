@@ -5,8 +5,16 @@ import ButtonContained from "../components/ButtonContained";
 import useAuth from "../hooks/useAuth";
 import * as SecureStore from "expo-secure-store";
 import UseLogout from "../hooks/useLogout";
+import UseRefreshToken from "../hooks/useRefreshToken";
 
 const PendingAccScreen = () => {
+  const refresh = UseRefreshToken();
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      await refresh();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
   const navigate = useNavigation();
   const { setAuth } = useAuth();
   const [email, setEmail] = useState("");

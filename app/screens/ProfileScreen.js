@@ -187,7 +187,7 @@ const ProfileScreen = () => {
           }}
         >
           Location: {userData?.houseNo}, {userData?.street},{" "}
-          {userData?.barangay} Tiaong Laguna
+          {userData?.barangay} Tiaong Quezon
         </Text>
       </View>
     </View>
