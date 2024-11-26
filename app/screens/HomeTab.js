@@ -32,51 +32,72 @@ const data = {
 const HomeTab = () => {
   const { setActiveScreen } = useData();
   const [typeChart, setTypeChart] = useState("Total Livestock");
-  const [livestockPiechartData, setLivestockPiechartData] = useState([]);
-  const [livestockBarchart, setLivestockBarchart] = useState([]);
+  const [livestockPiechartData, setLivestockPiechartData] = useState(null);
+  const [livestockBarchart, setLivestockBarchart] = useState(null);
+  const [yearlyLivestock, setYearlyLivestock] = useState(null);
+  const [yearlyMortality, setYearlyMortality] = useState(null);
   const { auth } = useAuth();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.post(
-          "/analytics/total-livestock-mortality",
-          { id: auth?.id }
-        );
-        const data =
-          response.data?.map((obj) => ({
-            ...obj,
-            open: false,
-          })) || [];
-
-        setLivestockPiechartData(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.post(
-          "/analytics/total-livestock-barchart",
-          { id: auth?.id }
-        );
-
-        setLivestockBarchart(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, []);
   useFocusEffect(
     useCallback(() => {
       setActiveScreen("Home");
+
+      const fetchPie = async () => {
+        try {
+          const response = await axios.post(
+            "/analytics/total-livestock-mortality",
+            { id: auth?.id }
+          );
+
+          setLivestockPiechartData(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      const fetchYM = async () => {
+        try {
+          const response = await axios.post(
+            "/analytics/farmer-yearly-mortality",
+            { id: auth?.id }
+          );
+
+          setYearlyMortality(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      const fetchYL = async () => {
+        try {
+          const response = await axios.post(
+            "/analytics/farmer-yearly-livestock",
+            { id: auth?.id }
+          );
+
+          setYearlyLivestock(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      const fetchBarchart = async () => {
+        try {
+          const response = await axios.post(
+            "/analytics/total-livestock-barchart",
+            { id: auth?.id }
+          );
+
+          setLivestockBarchart(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      fetchBarchart();
+      fetchPie();
+      fetchYL();
+      fetchYM();
     }, [])
   );
   return (
@@ -172,8 +193,23 @@ const HomeTab = () => {
             </Text>
 
             <BarChart
-              data={livestockBarchart}
-              width={ScreenWidth - 16}
+              data={{
+                labels: [
+                  "Cow",
+                  "Goat",
+                  "Chicken",
+                  "Duck",
+                  "Carabao",
+                  "Pig",
+                  "Horse",
+                ],
+                datasets: [
+                  {
+                    data: livestockBarchart,
+                  },
+                ],
+              }}
+              width={ScreenWidth - 32}
               height={220}
               chartConfig={{
                 backgroundGradientFrom: "#ffffff", // Background gradient starting color
@@ -199,64 +235,129 @@ const HomeTab = () => {
           </>
         )}
 
-        {typeChart == "Yearly Livestock's" && livestockPiechartData && (
-          <>
-            <Text
-              style={{ fontSize: 20, fontWeight: "bold", textAlign: "center" }}
-            >
-              Livestock Stocks(Bar Chart)
-            </Text>
+        {typeChart == "Yearly Livestock's" &&
+          yearlyLivestock !== null &&
+          yearlyLivestock?.length >= 0 && (
+            <>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  textAlign: "center",
+                }}
+              >
+                Yearly Livestocks(Line Chart)
+              </Text>
 
-            <LineChart
-              data={{
-                labels: [
-                  "Cow",
-                  "Goat",
-                  "Chicken",
-                  "Duck",
-                  "Carabao",
-                  "Pig",
-                  "Horse",
-                ],
-                datasets: [
-                  {
-                    data: [
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      100,
-                    ],
+              <LineChart
+                data={{
+                  labels: [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                  ],
+                  datasets: [
+                    {
+                      data: yearlyLivestock,
+                    },
+                  ],
+                }}
+                width={Dimensions.get("window").width - 32}
+                height={220}
+                chartConfig={{
+                  backgroundColor: "#FFF",
+                  backgroundGradientFrom: "#FFF",
+                  backgroundGradientTo: "#FFF",
+                  decimalPlaces: 2,
+                  color: (opacity = 1) => `rgba(0, 123, 225, ${opacity})`,
+                  labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                  style: {
+                    borderRadius: 16,
                   },
-                ],
-              }}
-              width={Dimensions.get("window").width - 32}
-              height={220}
-              chartConfig={{
-                backgroundColor: "#e26a00",
-                backgroundGradientFrom: "#fb8c00",
-                backgroundGradientTo: "#ffa726",
-                decimalPlaces: 2,
-                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                style: {
-                  borderRadius: 16,
-                },
-                propsForDots: {
-                  r: "6",
-                  strokeWidth: "2",
-                  stroke: "#ffa726",
-                },
-              }}
-              style={{
-                marginVertical: 8,
-                borderRadius: 16,
-              }}
-            />
-          </>
-        )}
+                  propsForDots: {
+                    r: "6",
+                    strokeWidth: "2",
+                    stroke: "#007bff",
+                  },
+                }}
+                style={{
+                  marginTop: 16,
+                }}
+                formatYLabel={(value) => parseInt(value, 10)?.toString()}
+              />
+            </>
+          )}
+
+        {typeChart == "Yearly Mortality" &&
+          yearlyMortality !== null &&
+          yearlyLivestock?.length >= 0 && (
+            <>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  textAlign: "center",
+                }}
+              >
+                Yearly Mortality(Line Chart)
+              </Text>
+
+              <LineChart
+                data={{
+                  labels: [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                  ],
+                  datasets: [
+                    {
+                      data: yearlyMortality,
+                    },
+                  ],
+                }}
+                width={Dimensions.get("window").width - 32}
+                height={220}
+                chartConfig={{
+                  backgroundColor: "#FFF",
+                  backgroundGradientFrom: "#FFF",
+                  backgroundGradientTo: "#FFF",
+                  decimalPlaces: 2,
+                  color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
+                  labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                  style: {
+                    borderRadius: 16,
+                  },
+                  propsForDots: {
+                    r: "6",
+                    strokeWidth: "2",
+                    stroke: "#DC143C",
+                  },
+                }}
+                style={{
+                  marginTop: 16,
+                }}
+                formatYLabel={(value) => parseInt(value, 10)?.toString()}
+              />
+            </>
+          )}
       </View>
     </View>
   );
