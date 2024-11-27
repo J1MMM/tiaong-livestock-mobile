@@ -19,29 +19,10 @@ const VerifyEmailScreen = ({ route }) => {
     try {
       const response = await axios.post("/verify-code", {
         verificationCode,
-        id,
+        id: id?.id,
       });
-      // navigate.navigate("PersonalInfo");
-      // navigate.reset({
-      //   index: 1,
-      //   routes: [{ name: "LoginScreen" }, { name: "PersonalInfo" }],
-      // });
 
-      navigate.dispatch(StackActions.replace("PersonalInfo"));
-    } catch (error) {
-      console.log(error);
-      setErrMsg(error?.response?.data?.message);
-    }
-    setDisabled(false);
-  };
-
-  const resendVerification = async () => {
-    setErrMsg("");
-    setDisabled(true);
-    try {
-      const response = await axios.post("/resend", { id, email });
-      console.log("resend response");
-      console.log(response.data);
+      navigate.dispatch(StackActions.replace("ChangePass", { email, id }));
     } catch (error) {
       console.log(error);
       setErrMsg(error?.response?.data?.message);
@@ -71,11 +52,9 @@ const VerifyEmailScreen = ({ route }) => {
       >
         <View>
           <Text style={{ fontSize: 24, fontWeight: "500", marginBottom: 8 }}>
-            Verify Your Account
+            Verify your code
           </Text>
-          <Text style={{}}>
-            Please enter the verification code sent to your email address.
-          </Text>
+          <Text style={{}}>We have sent a code to your email.</Text>
           <Text style={{ color: "#007bff", fontWeight: "bold" }}>
             Your email is: {email || ""}
           </Text>
@@ -99,12 +78,12 @@ const VerifyEmailScreen = ({ route }) => {
           <ButtonContained
             onPress={submitVerification}
             disabled={disabled}
-            label={disabled ? "Loading..." : "Verify Account"}
+            label={disabled ? "Loading..." : "Verify Code"}
           />
           <ButtonOutlined
-            onPress={resendVerification}
+            onPress={() => navigate.goBack()}
             disabled={disabled}
-            label="Resend Code"
+            label="Go Back"
           />
         </View>
       </View>

@@ -1,12 +1,28 @@
-import { useNavigation } from "@react-navigation/native";
+import { StackActions, useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import axios from "../api/axios";
 
 const ForgotPassScreen = () => {
   const navigate = useNavigation();
   const [email, setEmail] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [disabled, setDisabled] = useState(false);
+
+  const handleSendCode = async () => {
+    setErrMsg("");
+    setDisabled(true);
+    try {
+      const response = await axios.post("/reset/send-code", { email: email });
+      console.log(response.data);
+      setEmail("");
+      navigate.navigate("VerifyCode", { email: email, id: response.data });
+    } catch (error) {
+      console.log(error);
+      setErrMsg(error?.response?.data);
+    }
+    setDisabled(false);
+  };
 
   return (
     <View
@@ -37,10 +53,14 @@ const ForgotPassScreen = () => {
           </Text>
         </View>
 
+        {errMsg && (
+          <Text style={{ color: "#FC0F3B", maxWidth: 350 }}>{errMsg}</Text>
+        )}
+
         <View
           style={[
             styles.inputControl,
-            { borderColor: errMsg ? "#FC0F3B" : "#e0e0e0", marginTop: 24 },
+            { borderColor: errMsg ? "#FC0F3B" : "#e0e0e0" },
           ]}
         >
           <TextInput
@@ -61,7 +81,7 @@ const ForgotPassScreen = () => {
             backgroundColor: "#007bff",
             marginTop: 8,
           }}
-          onPress={() => {}}
+          onPress={handleSendCode}
           disabled={disabled}
         >
           <Text

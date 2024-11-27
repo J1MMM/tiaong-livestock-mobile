@@ -22,6 +22,8 @@ import FarmProfileForm3 from "./FarmProfileForm3";
 import ReviewForm from "./ReviewForm";
 import PendingAccScreen from "./PendingAccScreen";
 import PersistLogin from "./PersistLogin";
+import VerifyCodeScreen from "./VerifyCodeScreen";
+import ChangePassScreen from "./ChangePassScreen";
 
 const Stack = createNativeStackNavigator();
 const boldFont = require("../../assets/fonts/VAGRoundedStd-Black.otf");
@@ -146,6 +148,16 @@ const Layout = () => {
               name="ReviewForm"
               options={{ animation: "slide_from_right" }}
               component={ReviewForm}
+            />
+            <Stack.Screen
+              name="VerifyCode"
+              options={{ animation: "slide_from_right" }}
+              component={VerifyCodeScreen}
+            />
+            <Stack.Screen
+              name="ChangePass"
+              options={{ animation: "slide_from_right" }}
+              component={ChangePassScreen}
             />
           </Stack.Navigator>
           {/* <BgMusic /> */}
