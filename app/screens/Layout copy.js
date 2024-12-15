@@ -96,7 +96,7 @@ const Layout = () => {
             <Stack.Screen
               name="LoginScreen"
               options={{ animation: "slide_from_bottom" }}
-              component={LoginScreen}
+              component={HomeScreen}
             />
           )}
 

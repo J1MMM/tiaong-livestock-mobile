@@ -6,6 +6,7 @@ import {
   Image,
   Pressable,
   Dimensions,
+  Button,
 } from "react-native";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -17,11 +18,12 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const logo = require("../../assets/images/logo.jpg");
 const ScreenWidth = Dimensions.get("window").width;
 const Stack = createNativeStackNavigator();
-
+const Tab = createBottomTabNavigator();
 const LoginScreen = () => {
   const navigate = useNavigation();
   const AnimatedView = Animated.createAnimatedComponent(View);
@@ -42,6 +44,56 @@ const LoginScreen = () => {
       transform: [{ translateX: translateX.value }],
     };
   });
+
+  const CustomTabBar = ({ state, descriptors, navigation }) => {
+    return (
+      <View style={styles.navContainer}>
+        <AnimatedView
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            left: 0,
+            top: 0,
+            borderRadius: 24,
+          }}
+        >
+          <AnimatedView
+            style={[
+              {
+                backgroundColor: "#007bff",
+                width: "50%",
+                height: "100%",
+                borderRadius: 24,
+              },
+              animatedStyle,
+            ]}
+          />
+        </AnimatedView>
+        <Pressable style={styles.navBtn} onPress={handleNavigateLogin}>
+          <Text
+            style={{
+              ...styles.navBtnTxt,
+              color: loginScreenActive ? "#FFF" : "#000",
+            }}
+          >
+            Login
+          </Text>
+        </Pressable>
+
+        <Pressable style={styles.navBtn} onPress={handleNavigateSignup}>
+          <Text
+            style={{
+              ...styles.navBtnTxt,
+              color: !loginScreenActive ? "#FFF" : "#000",
+            }}
+          >
+            Signup
+          </Text>
+        </Pressable>
+      </View>
+    );
+  };
 
   return (
     <View
@@ -71,7 +123,7 @@ const LoginScreen = () => {
           <Image source={logo} style={{ maxWidth: 125, maxHeight: 125 }} />
         </View>
 
-        <View style={styles.navContainer}>
+        {/* <View style={styles.navContainer}>
           <AnimatedView
             style={{
               position: "absolute",
@@ -115,7 +167,7 @@ const LoginScreen = () => {
               Signup
             </Text>
           </Pressable>
-        </View>
+        </View> */}
       </View>
 
       <View
@@ -124,17 +176,25 @@ const LoginScreen = () => {
           backgroundColor: "#FFF",
         }}
       >
-        <Stack.Navigator
+        <Tab.Navigator
           initialRouteName="Login"
+          // screenOptions={{
+          //   headerShown: false,
+          //   animation: "slide_from_right",
+          //   contentStyle: {
+          //     backgroundColor: "#FFF",
+          //   },
+          // }}
+
           screenOptions={{
             headerShown: false,
-            animation: "slide_from_right",
-            contentStyle: {
-              backgroundColor: "#FFF",
-            },
+            animation: "shift",
+            sceneStyle: { backgroundColor: "#FFF" },
+            tabBarPosition: "top",
           }}
+          tabBar={(props) => <CustomTabBar {...props} />}
         >
-          <Stack.Screen name="Login">
+          <Tab.Screen name="Login">
             {() => (
               <LoginTab
                 handleNavigateSignup={handleNavigateSignup}
@@ -142,16 +202,16 @@ const LoginScreen = () => {
                 translateX={translateX}
               />
             )}
-          </Stack.Screen>
-          <Stack.Screen name="Signup">
+          </Tab.Screen>
+          <Tab.Screen name="Signup">
             {() => (
               <SignupTab
                 setLoginScreenActive={setLoginScreenActive}
                 translateX={translateX}
               />
             )}
-          </Stack.Screen>
-        </Stack.Navigator>
+          </Tab.Screen>
+        </Tab.Navigator>
       </View>
     </View>
   );
@@ -174,6 +234,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     width: "100%",
     backgroundColor: "#FFF",
+    marginBottom: 32,
   },
 
   navBtn: {
