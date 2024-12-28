@@ -71,7 +71,6 @@ const FarmProfileForm3 = () => {
       }));
     }
   };
-
   return (
     <View
       style={{

@@ -20,7 +20,8 @@ const PersonalInfoFrom2 = () => {
   const [civilStatusIsCollapsed, setCivilStatusIsCollapsed] = useState(true);
   const [householdHeadIsCollapsed, setHouseholdHeadIsCollapsed] =
     useState(true);
-
+  console.log(userData?.birthDate);
+  console.log(typeof new Date(userData?.birthDate));
   const handlePressNextBtn = () => {
     if (
       !userData.contactNo ||

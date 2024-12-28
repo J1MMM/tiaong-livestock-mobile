@@ -60,12 +60,24 @@ const LoginTab = ({
         "refreshToken",
         JSON.stringify(response.data?.refreshToken)
       );
-      setUserData(response.data);
+      if (response.data?.archive) {
+        setUserData({
+          ...response.data,
+          idImage: null,
+          userImage: null,
+          idImageUri: null,
+          userImageUri: null,
+        });
+      } else {
+        setUserData(response.data);
+      }
+
       setAuth((prev) => ({
         ...prev,
         authenticated: true,
         isApprove: response.data?.isApprove,
         id: response.data?.id,
+        archive: response.data?.archive,
       }));
     } catch (error) {
       console.log(error);

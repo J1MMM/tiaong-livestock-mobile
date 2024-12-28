@@ -2,7 +2,14 @@ import { View, Text } from "react-native";
 import React from "react";
 import RNPickerSelect from "react-native-picker-select";
 
-const Dropdown = ({ setValue, options, label, placeholder, value }) => {
+const Dropdown = ({
+  setValue,
+  options,
+  label,
+  placeholder,
+  value,
+  placeholderVal,
+}) => {
   return (
     <View
       style={{
@@ -39,7 +46,7 @@ const Dropdown = ({ setValue, options, label, placeholder, value }) => {
               }))) ||
             []
           }
-          placeholder={{ label: placeholder, value: null }}
+          placeholder={{ label: placeholder, value: placeholderVal }}
           style={{
             inputAndroid: {
               marginBottom: -14,

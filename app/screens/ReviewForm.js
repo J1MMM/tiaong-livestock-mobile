@@ -45,7 +45,7 @@ const ReviewForm = () => {
         JSON.stringify(response.data?.refreshToken)
       );
 
-      setAuth((prev) => ({ ...prev, authenticated: true }));
+      setAuth((prev) => ({ ...prev, authenticated: true, archive: false }));
       navigate.reset({
         index: 0,
         routes: [{ name: "PendingAcc" }],
@@ -156,7 +156,7 @@ const ReviewForm = () => {
                   {userData?.contactNo}
                 </TextLabel>
                 <TextLabel style={{ color: "#888" }}>
-                  {userData?.birthDate?.toLocaleDateString("en-GB")}
+                  {new Date(userData?.birthDate)?.toLocaleDateString("en-GB")}
                 </TextLabel>
                 <TextLabel style={{ color: "#888" }}>
                   {userData?.birthPlace}

@@ -9,12 +9,12 @@ import UseRefreshToken from "../hooks/useRefreshToken";
 
 const PendingAccScreen = () => {
   const refresh = UseRefreshToken();
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      await refresh();
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(async () => {
+  //     await refresh();
+  //   }, 5000);
+  //   return () => clearInterval(interval);
+  // }, []);
   const navigate = useNavigation();
   const { setAuth } = useAuth();
   const [email, setEmail] = useState("");

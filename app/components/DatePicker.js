@@ -5,6 +5,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 
 const DatePicker = ({ setDate, date, label }) => {
+  console.log("date");
+  console.log(typeof date);
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setDate(currentDate);

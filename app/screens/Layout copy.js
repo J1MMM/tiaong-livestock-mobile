@@ -85,6 +85,12 @@ const Layout = () => {
                 options={{ animation: "slide_from_bottom" }}
                 component={HomeScreen}
               />
+            ) : auth?.archive ? (
+              <Stack.Screen
+                name="rejectedAcc"
+                options={{ animation: "slide_from_bottom" }}
+                component={PersonalInfoFrom1}
+              />
             ) : (
               <Stack.Screen
                 name="PendingAcc"

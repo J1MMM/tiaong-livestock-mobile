@@ -14,7 +14,6 @@ const ProfileScreen = () => {
   const { setActiveScreen, userData } = useData();
   const { setAuth } = useAuth();
   const logout = UseLogout();
-
   const [confirmationShown, setConfirmationShown] = useState(false);
 
   useFocusEffect(

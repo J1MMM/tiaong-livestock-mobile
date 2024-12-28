@@ -126,6 +126,7 @@ const HomeTab = () => {
             "Yearly Mortality",
           ]}
           placeholder="Select Chart Type:"
+          placeholderVal="Total Livestock"
           value={typeChart}
           setValue={(value) => setTypeChart(value)}
         />

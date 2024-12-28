@@ -10,6 +10,7 @@ function LSDropdown({
   setValue,
   placeholder,
   disabled,
+  placeholderVal,
 }) {
   return (
     <View
@@ -48,7 +49,7 @@ function LSDropdown({
               }))) ||
             []
           }
-          placeholder={{ label: placeholder, value: null }}
+          placeholder={{ label: placeholder, value: placeholderVal }}
           style={{
             inputAndroid: {
               marginBottom: -14,

@@ -101,6 +101,7 @@ const LivestockScreen = () => {
         placeholder="Select Category:"
         setValue={setCategory}
         value={category}
+        placeholderVal="Add Livestock"
       />
       {category == null ? null : category == "Add Livestock" ? (
         <>
