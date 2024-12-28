@@ -107,7 +107,16 @@ const PersonalInfoFrom2 = () => {
           <Dropdown
             label="Religion"
             placeholder="Select your religion:"
-            options={["Christianity", "Islam", "Others"]}
+            options={[
+              "Catholic",
+              "Iglesia ni Cristo",
+              "Islam",
+              "Aglipayan Church(Philippine Independent Church)",
+              "Protestantism",
+              "Jehovah's Witnesses",
+              "Born Again Christianity",
+              "Others",
+            ]}
             value={userData.religion}
             setValue={(value) =>
               setUserData((prev) => ({ ...prev, religion: value }))

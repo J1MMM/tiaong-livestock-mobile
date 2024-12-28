@@ -151,7 +151,7 @@ const HomeTab = () => {
       >
         {typeChart == "Total Livestock" && livestockPiechartData && (
           <>
-            <Text
+            {/* <Text
               style={{
                 fontSize: 20,
                 fontWeight: "bold",
@@ -159,7 +159,7 @@ const HomeTab = () => {
               }}
             >
               Total Livestock and Mortality
-            </Text>
+            </Text> */}
 
             <PieChart
               data={livestockPiechartData}
@@ -186,11 +186,11 @@ const HomeTab = () => {
 
         {typeChart == "Livestock Stocks" && livestockBarchart && (
           <>
-            <Text
+            {/* <Text
               style={{ fontSize: 20, fontWeight: "bold", textAlign: "center" }}
             >
               Livestock Stocks(Bar Chart)
-            </Text>
+            </Text> */}
 
             <BarChart
               data={{
@@ -239,7 +239,7 @@ const HomeTab = () => {
           yearlyLivestock !== null &&
           yearlyLivestock?.length >= 0 && (
             <>
-              <Text
+              {/* <Text
                 style={{
                   fontSize: 20,
                   fontWeight: "bold",
@@ -247,7 +247,7 @@ const HomeTab = () => {
                 }}
               >
                 Yearly Livestocks(Line Chart)
-              </Text>
+              </Text> */}
 
               <LineChart
                 data={{
@@ -301,7 +301,7 @@ const HomeTab = () => {
           yearlyMortality !== null &&
           yearlyLivestock?.length >= 0 && (
             <>
-              <Text
+              {/* <Text
                 style={{
                   fontSize: 20,
                   fontWeight: "bold",
@@ -309,7 +309,7 @@ const HomeTab = () => {
                 }}
               >
                 Yearly Mortality(Line Chart)
-              </Text>
+              </Text> */}
 
               <LineChart
                 data={{

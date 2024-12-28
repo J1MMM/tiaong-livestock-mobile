@@ -12,6 +12,7 @@ import useAuth from "../hooks/useAuth";
 import { Modal } from "react-native";
 import { Pressable } from "react-native";
 import AlertModal from "../components/AlertModal";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 const LivestockScreen = () => {
   const { setActiveScreen, userData } = useData();
@@ -19,8 +20,13 @@ const LivestockScreen = () => {
   const [category, setCategory] = useState(null);
   const [livestock, setLivestock] = useState("");
   const [count, setCount] = useState(0);
-  const [successModalShow, setSuccessModalShow] = useState(false);
+  const [successAddLivestockModalShow, setSuccessAddLivestockModalShow] =
+    useState(false);
+  const [successAddMortalityModalShow, setSuccessAddMortalityModalShow] =
+    useState(false);
+  const [confirmationShow, setConfirmationShow] = useState(false);
   const [errorModalShow, setErrorModalShow] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
   const [disabled, setDisabled] = useState(false);
 
   useFocusEffect(
@@ -39,8 +45,6 @@ const LivestockScreen = () => {
   }, [livestock]);
 
   const handleAddLivestock = async () => {
-    if (!category || !livestock || !count) return;
-
     setDisabled(true);
     try {
       const response = await axios.post("/livestock", {
@@ -49,11 +53,20 @@ const LivestockScreen = () => {
         livestock,
         count,
       });
-      setLivestock("");
-      setCount(0);
-      setSuccessModalShow(true);
+      if (category == "Add Livestock") {
+        setSuccessAddLivestockModalShow(true);
+      } else {
+        setSuccessAddMortalityModalShow(true);
+      }
     } catch (error) {
       console.log(error);
+      if (error?.response?.data?.message) {
+        setErrMsg(error?.response?.data?.message);
+      } else {
+        setErrMsg(
+          "Something went wrong while processing your request. Please try again later or contact support if the issue persists."
+        );
+      }
       setErrorModalShow(true);
     }
     setDisabled(false);
@@ -139,7 +152,10 @@ const LivestockScreen = () => {
             <ButtonContained
               disabled={disabled}
               label="Add"
-              onPress={handleAddLivestock}
+              onPress={() => {
+                if (!category || !livestock || !count) return;
+                setConfirmationShow(true);
+              }}
             />
           </View>
         </>
@@ -193,23 +209,47 @@ const LivestockScreen = () => {
             <ButtonContained
               disabled={disabled}
               label="Confirm Lost"
-              onPress={handleAddLivestock}
+              onPress={() => {
+                if (!category || !livestock || !count) return;
+                setConfirmationShow(true);
+              }}
             />
           </View>
         </>
       )}
 
       <AlertModal
-        visible={successModalShow}
-        onClose={() => setSuccessModalShow(false)}
-        content="Your action was completed successfully. Thank you for your effort!"
+        visible={successAddLivestockModalShow}
+        onClose={() => {
+          setCount(0);
+          setLivestock("");
+          setSuccessAddLivestockModalShow(false);
+        }}
+        content={`You successfully added the ${livestock}.`}
+      />
+      <ConfirmationModal
+        visible={confirmationShow}
+        onClose={() => setConfirmationShow(false)}
+        onConfirm={() => {
+          setConfirmationShow(false);
+          handleAddLivestock();
+        }}
+      />
+      <AlertModal
+        visible={successAddMortalityModalShow}
+        onClose={() => {
+          setCount(0);
+          setLivestock("");
+          setSuccessAddMortalityModalShow(false);
+        }}
+        content={`You successfully added the ${livestock} under mortality.`}
       />
 
       <AlertModal
         severity="error"
         visible={errorModalShow}
         onClose={() => setErrorModalShow(false)}
-        content="Something went wrong while processing your request. Please try again later or contact support if the issue persists."
+        content={errMsg}
       />
     </View>
   );

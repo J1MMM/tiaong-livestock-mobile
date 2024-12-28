@@ -7,60 +7,35 @@ import NotificationScreen from "./NotificationScreen";
 import LivestockScreen from "./LivestockScreen";
 import ProfileScreen from "./ProfileScreen";
 import Navigation from "../components/Navigation";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Ionicons from "@expo/vector-icons/Ionicons";
-const Tab = createBottomTabNavigator();
-
+import useData from "../hooks/useData";
 const Stack = createNativeStackNavigator();
 
 const HomeScreen = () => {
+  const navigate = useNavigation();
+
   return (
     <View
       style={{
         flex: 1,
       }}
     >
-      <Tab.Navigator
+      <Stack.Navigator
         initialRouteName="Home"
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            if (route.name === "Home") {
-              iconName = focused ? "home" : "home-outline";
-            } else if (route.name === "Announcement") {
-              iconName = focused ? "notifications" : "notifications-outline";
-            } else if (route.name === "Livestock") {
-              iconName = focused ? "paw" : "paw-outline";
-            } else if (route.name === "Profile") {
-              iconName = focused ? "person" : "person-outline";
-            }
-
-            // Return the icon component
-            return <Ionicons name={iconName} size={size} color={color} />;
+        screenOptions={{
+          headerShown: false,
+          animation: "slide_from_right",
+          contentStyle: {
+            backgroundColor: "#FFF",
           },
-          tabBarActiveTintColor: "#007bff",
-          tabBarInactiveTintColor: "gray",
-          tabBarStyle: {
-            height: 70, // Adjust height if needed
-            paddingTop: 10,
-          },
-        })}
-        // screenOptions={{
-        //   headerShown: false,
-        //   animation: "slide_from_right",
-        //   contentStyle: {
-        //     backgroundColor: "#FFF",
-        //   },
-        // }}
+        }}
       >
-        <Tab.Screen name="Home" component={HomeTab} />
-        <Tab.Screen name="Announcement" component={NotificationScreen} />
-        <Tab.Screen name="Livestock" component={LivestockScreen} />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
-      </Tab.Navigator>
+        <Stack.Screen name="Home" component={HomeTab} />
+        <Stack.Screen name="Notification" component={NotificationScreen} />
+        <Stack.Screen name="Livestock" component={LivestockScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+      </Stack.Navigator>
 
-      {/* <Navigation /> */}
+      <Navigation />
     </View>
   );
 };

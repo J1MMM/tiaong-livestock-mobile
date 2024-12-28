@@ -55,6 +55,7 @@ const LoginTab = ({
 
     try {
       const response = await axios.post("/auth", { referenceNo, password });
+
       await SecureStore.setItemAsync(
         "refreshToken",
         JSON.stringify(response.data?.refreshToken)
@@ -68,7 +69,11 @@ const LoginTab = ({
       }));
     } catch (error) {
       console.log(error);
-      setErrMsg(error?.response?.data?.message);
+      if (error?.response?.data?.message) {
+        setErrMsg(error.response.data.message);
+      } else {
+        setErrMsg("No server response");
+      }
     }
 
     setFormDisabled(false);
@@ -93,7 +98,7 @@ const LoginTab = ({
       >
         <TextInput
           style={styles.input}
-          placeholder="Email / Reference No."
+          placeholder="Reference No."
           placeholderTextColor="#888"
           onChangeText={(e) => setReferenceNo(e)}
           value={referenceNo}

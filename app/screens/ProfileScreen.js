@@ -1,5 +1,5 @@
 import { View, Text, Button } from "react-native";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import useData from "../hooks/useData";
 import { useFocusEffect } from "@react-navigation/native";
 import { Image } from "react-native";
@@ -8,11 +8,14 @@ import * as SecureStore from "expo-secure-store";
 import TextField from "../components/TextField";
 import InputField from "../components/InputField";
 import UseLogout from "../hooks/useLogout";
+import ConfirmationLogout from "../components/ConfirmationLogout";
 
 const ProfileScreen = () => {
   const { setActiveScreen, userData } = useData();
   const { setAuth } = useAuth();
   const logout = UseLogout();
+
+  const [confirmationShown, setConfirmationShown] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -86,7 +89,11 @@ const ProfileScreen = () => {
             Contact No: {userData?.contactNo}
           </Text>
           <View style={{ justifyContent: "center", marginTop: 16 }}>
-            <Button color="#CC3949" title="logout" onPress={logout} />
+            <Button
+              color="#CC3949"
+              title="logout"
+              onPress={() => setConfirmationShown(true)}
+            />
           </View>
         </View>
       </View>
@@ -190,6 +197,15 @@ const ProfileScreen = () => {
           {userData?.barangay} Tiaong Quezon
         </Text>
       </View>
+
+      <ConfirmationLogout
+        visible={confirmationShown}
+        onClose={() => setConfirmationShown(false)}
+        onConfirm={() => {
+          setConfirmationShown(false);
+          logout();
+        }}
+      />
     </View>
   );
 };
