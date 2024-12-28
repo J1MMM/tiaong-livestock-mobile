@@ -13,11 +13,11 @@ import { Modal } from "react-native";
 import { Pressable } from "react-native";
 import AlertModal from "../components/AlertModal";
 import ConfirmationModal from "../components/ConfirmationModal";
-
+console.log();
 const LivestockScreen = () => {
   const { setActiveScreen, userData } = useData();
   const { auth } = useAuth();
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState("Add Livestock");
   const [livestock, setLivestock] = useState("");
   const [count, setCount] = useState(0);
   const [successAddLivestockModalShow, setSuccessAddLivestockModalShow] =

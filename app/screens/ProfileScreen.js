@@ -88,6 +88,15 @@ const ProfileScreen = () => {
           >
             Contact No: {userData?.contactNo}
           </Text>
+          <Text
+            style={{
+              fontWeight: "bold",
+              color: "#888",
+              width: "100%",
+            }}
+          >
+            Control No: {userData?.referenceNo}
+          </Text>
           <View style={{ justifyContent: "center", marginTop: 16 }}>
             <Button
               color="#CC3949"
