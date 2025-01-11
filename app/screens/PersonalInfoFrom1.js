@@ -10,8 +10,12 @@ import { BRGY } from "../utils/constant";
 import Dropdown from "../components/Dropdown";
 import useData from "../hooks/useData";
 import TextLabel from "../components/TextLabel";
+import useAuth from "../hooks/useAuth";
+import UseLogout from "../hooks/useLogout";
 
 const PersonalInfoFrom1 = () => {
+  const { auth } = useAuth();
+  const logout = UseLogout();
   const navigate = useNavigation();
   const { userData, setUserData } = useData();
   const [verificationCode, setVerificationCode] = useState("");
@@ -35,6 +39,22 @@ const PersonalInfoFrom1 = () => {
       !userData.barangay
     ) {
       setErrMsg("Please fill in all required fields.");
+      return;
+    }
+
+    // Regular expression to allow only letters and spaces
+    const lettersOnlyRegex = /^[A-Za-z\s]+$/;
+
+    // Validate surname, firstname, and sex for letters only
+    if (
+      !lettersOnlyRegex.test(userData.extensionName) ||
+      !lettersOnlyRegex.test(userData.middlename) ||
+      !lettersOnlyRegex.test(userData.surname) ||
+      !lettersOnlyRegex.test(userData.firstname)
+    ) {
+      setErrMsg(
+        "Surname, Firstname, Middlename and Extension name should contain letters only."
+      );
       return;
     }
     navigate.navigate("PersonalInfo2");
@@ -188,7 +208,16 @@ const PersonalInfoFrom1 = () => {
               width: "50%",
             }}
           >
-            <ButtonOutlined onPress={() => navigate.goBack()} label="Cancel" />
+            <ButtonOutlined
+              onPress={() => {
+                if (auth?.archive) {
+                  logout();
+                } else {
+                  navigate.goBack();
+                }
+              }}
+              label="Cancel"
+            />
           </View>
           <View
             style={{

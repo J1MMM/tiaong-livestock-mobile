@@ -119,9 +119,9 @@ const FarmProfileForm1 = () => {
 
           <Collapsible
             collapsed={livestockCheckedIsCollapsed}
-            style={{ width: "100%" }}
+            style={{ wqidth: "100%" }}
           >
-            <InputField
+            {/* <InputField
               label="please specify"
               disabled={disabled}
               value={userData.livestockSpecify}
@@ -131,7 +131,113 @@ const FarmProfileForm1 = () => {
                   livestockSpecify: value,
                 }))
               }
-            />
+            /> */}
+            <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+              Please specify:
+            </Text>
+            <View
+              style={{
+                marginLeft: 32,
+                flexDirection: "row",
+                gap: 8,
+              }}
+            >
+              <View gap={8}>
+                <CheckboxInput
+                  label="Cow"
+                  value={userData.livestockSpecify.cow}
+                  onValueChange={(value) =>
+                    setUserData((prev) => ({
+                      ...prev,
+                      livestockSpecify: {
+                        ...prev.livestockSpecify,
+                        cow: value,
+                      },
+                    }))
+                  }
+                />
+                <CheckboxInput
+                  label="Goat"
+                  value={userData.livestockSpecify.goat}
+                  onValueChange={(value) =>
+                    setUserData((prev) => ({
+                      ...prev,
+                      livestockSpecify: {
+                        ...prev.livestockSpecify,
+                        goat: value,
+                      },
+                    }))
+                  }
+                />
+                <CheckboxInput
+                  label="Chicken"
+                  value={userData.livestockSpecify.chicken}
+                  onValueChange={(value) =>
+                    setUserData((prev) => ({
+                      ...prev,
+                      livestockSpecify: {
+                        ...prev.livestockSpecify,
+                        chicken: value,
+                      },
+                    }))
+                  }
+                />
+                <CheckboxInput
+                  label="Duck"
+                  value={userData.livestockSpecify.duck}
+                  onValueChange={(value) =>
+                    setUserData((prev) => ({
+                      ...prev,
+                      livestockSpecify: {
+                        ...prev.livestockSpecify,
+                        duck: value,
+                      },
+                    }))
+                  }
+                />
+              </View>
+              <View gap={8}>
+                <CheckboxInput
+                  label="Carabao"
+                  value={userData.livestockSpecify.carabao}
+                  onValueChange={(value) =>
+                    setUserData((prev) => ({
+                      ...prev,
+                      livestockSpecify: {
+                        ...prev.livestockSpecify,
+                        carabao: value,
+                      },
+                    }))
+                  }
+                />
+                <CheckboxInput
+                  label="Pig"
+                  value={userData.livestockSpecify.pig}
+                  onValueChange={(value) =>
+                    setUserData((prev) => ({
+                      ...prev,
+                      livestockSpecify: {
+                        ...prev.livestockSpecify,
+                        pig: value,
+                      },
+                    }))
+                  }
+                />
+                <CheckboxInput
+                  label="Horse"
+                  value={userData.livestockSpecify.horse}
+                  onValueChange={(value) =>
+                    setUserData((prev) => ({
+                      ...prev,
+                      livestockSpecify: {
+                        ...prev.livestockSpecify,
+                        horse: value,
+                      },
+                    }))
+                  }
+                />
+              </View>
+            </View>
           </Collapsible>
 
           <CheckboxInput
@@ -146,7 +252,7 @@ const FarmProfileForm1 = () => {
             collapsed={poultryCheckedIsCollapsed}
             style={{ width: "100%" }}
           >
-            <InputField
+            {/* <InputField
               label="please specify"
               disabled={disabled}
               value={userData.poultrySpecify}
@@ -156,7 +262,38 @@ const FarmProfileForm1 = () => {
                   poultrySpecify: value,
                 }))
               }
-            />
+            /> */}
+            <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+              Please specify:
+            </Text>
+            <View gap={8} style={{ marginLeft: 32 }}>
+              <CheckboxInput
+                label="Chicken"
+                value={userData.poultrySpecify.chicken}
+                onValueChange={(value) =>
+                  setUserData((prev) => ({
+                    ...prev,
+                    poultrySpecify: {
+                      ...prev.poultrySpecify,
+                      chicken: value,
+                    },
+                  }))
+                }
+              />
+              <CheckboxInput
+                label="Duck"
+                value={userData.poultrySpecify.duck}
+                onValueChange={(value) =>
+                  setUserData((prev) => ({
+                    ...prev,
+                    poultrySpecify: {
+                      ...prev.poultrySpecify,
+                      duck: value,
+                    },
+                  }))
+                }
+              />
+            </View>
           </Collapsible>
         </Collapsible>
 

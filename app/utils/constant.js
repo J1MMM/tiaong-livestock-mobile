@@ -1,6 +1,6 @@
 // export const BASE_URL =
 //   "https://tiaong-livestock-backend.onrender.com/api/farmers";
-export const BASE_URL = "http://192.168.100.247:3500/api/farmers";
+export const BASE_URL = "http://192.168.137.1:3500/api/farmers";
 
 export const USER_INITIAL_DATA = {
   id: "",
@@ -43,9 +43,20 @@ export const USER_INITIAL_DATA = {
 
   livelihood: "",
   livestockChecked: false,
-  livestockSpecify: "",
+  livestockSpecify: {
+    cow: false,
+    goat: false,
+    chicken: false,
+    duck: false,
+    carabao: false,
+    pig: false,
+    horse: false,
+  },
   poultryChecked: false,
-  poultrySpecify: "",
+  poultrySpecify: {
+    chicken: false,
+    duck: false,
+  },
 
   landPreparationChecked: false,
   harvestingChecked: false,
