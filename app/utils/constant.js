@@ -1,6 +1,6 @@
-// export const BASE_URL =
-//   "https://tiaong-livestock-backend.onrender.com/api/farmers";
-export const BASE_URL = "http://192.168.137.1:3500/api/farmers";
+export const BASE_URL =
+  "https://tiaong-livestock-backend.onrender.com/api/farmers";
+// export const BASE_URL = "http://192.168.137.1:3500/api/farmers";
 
 export const USER_INITIAL_DATA = {
   id: "",
