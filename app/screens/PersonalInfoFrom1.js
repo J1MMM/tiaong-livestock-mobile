@@ -47,12 +47,15 @@ const PersonalInfoFrom1 = () => {
 
     // Validate surname, firstname, and sex for letters only
     if (
-      !lettersOnlyRegex.test(userData.middlename) ||
+      (!lettersOnlyRegex.test(userData.extensionName) &&
+        userData.extensionName) != "" ||
+      (!lettersOnlyRegex.test(userData.middlename) &&
+        userData.middlename != "") ||
       !lettersOnlyRegex.test(userData.surname) ||
       !lettersOnlyRegex.test(userData.firstname)
     ) {
       setErrMsg(
-        "Surname, Firstname and Middlename  should contain letters only."
+        "Surname, Firstname, Middlename and Extension name should contain letters only."
       );
       return;
     }
